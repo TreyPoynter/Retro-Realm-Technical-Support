@@ -43,7 +43,9 @@ body {
 
 .list-group-item {
     background-color: #df6108;
-    border: 1px solid #000
+    transition: all 0.1s ease, background 0.3s ease;
+    border: 1px solid #000;
+    color: #000;
 }.list-group-item:hover {
     background-color: #f2771c;
     color: #000;
