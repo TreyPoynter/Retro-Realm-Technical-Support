@@ -18,5 +18,25 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: #fee7bd;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 768px) {
+    body {
+        background: linear-gradient(to right, #fee7bd 0%, #fee7bd 60%, #74c2ac 60%, #74c2ac 65%, #563b29 65%, #563b29 70%, #d57221 70%, #d57221 75%, #eb9d3a 75%, #eb9d3a 80%, #fee7bd 0%);
+    }
+}
+@media (max-width: 767px) {
+    body {
+        background: linear-gradient(to bottom, #fee7bd 0%, #fee7bd 60%, #74c2ac 60%, #74c2ac 65%, #563b29 65%, #563b29 70%, #d57221 70%, #d57221 75%, #eb9d3a 75%, #eb9d3a 80%, #fee7bd 80%);
+    }
+}
+
+#header-nav, footer {
+    background-color: #005f73 !important;
+}
+.navbar-light, .navbar-light .navbar-brand, .navbar-light .nav-link {
+    color: white !important;
 }
