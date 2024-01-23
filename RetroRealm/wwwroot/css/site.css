@@ -57,3 +57,7 @@ body {
     background-color: #df6108;
     color: #000;
 }
+
+h2, h3, h1, .retro {
+    font-family: 'Shrikhand', serif;
+}
