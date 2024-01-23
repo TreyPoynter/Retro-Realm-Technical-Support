@@ -26,10 +26,12 @@ body {
 @media (min-width: 768px) {
     body {
         background: linear-gradient(to right, #fee7bd 0%, #fee7bd 60%, #74c2ac 60%, #74c2ac 65%, #563b29 65%, #563b29 70%, #d57221 70%, #d57221 75%, #eb9d3a 75%, #eb9d3a 80%, #fee7bd 0%);
+        background-repeat: repeat-x;
     }
 }
 @media (max-width: 767px) {
     body {
+        background-repeat: repeat-x;
         background: linear-gradient(to bottom, #fee7bd 0%, #fee7bd 60%, #74c2ac 60%, #74c2ac 65%, #563b29 65%, #563b29 70%, #d57221 70%, #d57221 75%, #eb9d3a 75%, #eb9d3a 80%, #fee7bd 80%);
     }
 }
