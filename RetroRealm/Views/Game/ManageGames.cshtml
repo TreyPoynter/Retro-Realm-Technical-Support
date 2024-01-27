@@ -1,0 +1,34 @@
+﻿@model List<GameModel>
+
+@{
+    ViewBag.Title = ViewBag.Action;
+}
+
+<h2 class="fs-1">Game Manager</h2>
+
+<table class="table retro-table">
+    <thead>
+        <tr class="">
+            <th scope="col">Code</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Release Date</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="">
+            <td scope="row">CNTPD91</td>
+            <td>Centipede</td>
+            <td>$10.00</td>
+            <td>June 15, 1981</td>
+            <td class="w-25">
+                <div class="d-flex justify-content-around">
+                    <a class="btn-retro text-decoration-none">Edit</a>
+                    <a class="btn-retro text-decoration-none">Delete</a>
+                </div>
+                
+            </td>
+        </tr>
+    </tbody>
+</table>
