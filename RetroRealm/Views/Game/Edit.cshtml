@@ -1,0 +1,42 @@
+﻿@model GameModel
+@{
+    ViewBag.Title = ViewBag.Action;
+    DateOnly currentDate = new DateOnly();
+}
+
+<h2 class="fs-1">@ViewBag.Action Game</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="mb-3">
+        <div class="form-floating retro-form">
+            <input asp-for="Title" type="text" class="form-control" id="floatingInput" placeholder="Title">
+            <label asp-for="Title" for="floatingInput">Title</label>
+        </div>
+        <span class="text-danger fw-bold" asp-validation-for="Title"></span>
+    </div>
+    <div class="mb-3">
+        <div class="form-floating retro-form">
+            <input asp-for="Code" type="text" class="form-control" id="floatingInput" placeholder="ABCD12">
+            <label asp-for="Code" for="floatingInput">Code</label>
+        </div>
+        <span class="text-danger fw-bold" asp-validation-for="Code"></span>
+    </div>
+    <div class="mb-3">
+        <div class="form-floating retro-form">
+            <input asp-for="Price" type="text" class="form-control" id="floatingInput" placeholder="$1">
+            <label asp-for="Price" for="floatingInput">Price</label>
+        </div>
+        <span class="text-danger fw-bold" asp-validation-for="Price"></span>
+    </div>
+    <div class="mb-3">
+        <div class="form-floating retro-form">
+            <input asp-for="ReleaseDate" type="text" class="form-control" id="floatingInput" placeholder="@currentDate">
+            <label asp-for="ReleaseDate" for="floatingInput">Release Date</label>
+        </div>
+        <span class="text-danger fw-bold" asp-validation-for="ReleaseDate"></span>
+    </div>
+    <input type="hidden" asp-for="GameModelId"/>
+    <button class="btn-retro" type="submit">Save</button>
+    <a asp-controller="Game" asp-action="ManageGames"
+       class="btn-retro text-decoration-none ms-3">Cancel</a>
+</form>

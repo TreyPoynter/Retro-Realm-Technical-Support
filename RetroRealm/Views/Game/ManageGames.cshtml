@@ -17,18 +17,24 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="">
-            <td scope="row">CNTPD91</td>
-            <td>Centipede</td>
-            <td>$10.00</td>
-            <td>June 15, 1981</td>
-            <td class="w-25">
-                <div class="d-flex justify-content-around">
-                    <a class="btn-retro text-decoration-none">Edit</a>
-                    <a class="btn-retro text-decoration-none">Delete</a>
-                </div>
-                
-            </td>
-        </tr>
+        @foreach(GameModel game in Model)
+        {
+            <tr class="">
+                <td scope="row">@game.Code</td>
+                <td>@game.Title</td>
+                <td>@game.Price.Value.ToString("C2")</td>
+                <td>@game.ReleaseDate</td>
+                <td class="w-25">
+                    <div class="d-flex justify-content-around">
+                        <a asp-controller="Game" asp-action="Edit" asp-route-id="@game.GameModelId" 
+                        class="btn-retro text-decoration-none">Edit</a>
+                        <a asp-controller="Game" asp-action="Delete" asp-route-id="@game.GameModelId" 
+                        class="btn-retro text-decoration-none">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+        
     </tbody>
 </table>
+<a class="btn-retro text-decoration-none fs-5" asp-controller="Game" asp-action="Add">Add Game</a>

@@ -1,7 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using RetroRealm.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<GameModelContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("GameContext")));
+builder.Services.AddRouting(options =>
+{
+    options.LowercaseUrls = true;
+    options.AppendTrailingSlash = true;
+});
 
 var app = builder.Build();
 

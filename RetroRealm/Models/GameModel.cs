@@ -13,7 +13,7 @@ namespace RetroRealm.Models
         public string? Code { get; set; }
 
         [Required (ErrorMessage = "A price is required!")]
-        [Range (0f, float.MaxValue)]
+        [Range (1f, float.MaxValue, ErrorMessage = "Price can't be below $1")]
         public decimal? Price { get; set; }
 
         [Required (ErrorMessage = "A release date is required!")]

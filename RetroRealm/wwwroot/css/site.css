@@ -88,7 +88,7 @@ h2, h3, h1, .retro {
     display: inline-block;
     padding: 6px 35px;
     border-radius: 8px;
-    background: #f6781e;
+    background: #df6108;
     color: #fff;
     box-shadow: 0 0 0 3px #2f2e41, 0 6px 0 #2f2e41;
     transition: all 0.1s ease, background 0.3s ease;
@@ -96,10 +96,24 @@ h2, h3, h1, .retro {
 .btn-retro:hover,
 .btn-retro:focus {
     color: #fff;
-    background: #df6108;
+    background: #f2771c;
 }
 .btn-retro:active {
     box-shadow: 0 0 0 3px #2f2e41, 0 4px 0 #2f2e41;
     transform: translateY(2px);
 }
+
+/* INPUT */
+.retro-form {
+    background-color: #F3EFEF;
+    color: #454545;
+}
+.retro-form input {
+    background-color: #f3efef;
+    border-color: #AFAFAF;
+}
+.retro-form input:focus {
+    background-color: #e0e0e0;
+}
+
 
