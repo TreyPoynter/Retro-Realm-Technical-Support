@@ -35,8 +35,6 @@ namespace RetroRealm.Models
                     Price = 20m,
                     ReleaseDate = new DateOnly(1980, 10, 12)
                 }
-
-
                 );
         }
     }

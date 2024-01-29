@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Technician Manager";
+}
+
+<h2 class="fs-1">Technician Manager</h2>
+
+<table class="table retro-table">
+    <thead>
+        <tr class="">
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="">
+            <td scope="row">Alison Diaz</td>
+            <td>alison@retrorealmsoftware.com</td>
+            <td>800-555-0449</td>
+            <td class="w-25">
+                <div class="d-flex justify-content-around">
+                    <a asp-controller="Technician" asp-action="Edit"
+                       class="btn-retro text-decoration-none">Edit</a>
+                    <a asp-controller="Technician" asp-action="Delete"
+                       class="btn-retro text-decoration-none">Delete</a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<a class="btn-retro text-decoration-none fs-5" asp-controller="Technician" asp-action="Add">Add Technician</a>
