@@ -1,9 +1,7 @@
 html {
     font-size: 14px;
 }
-* {
-    font-family: "Comic Sans MS"
-}
+
 @media (min-width: 768px) {
     html {
         font-size: 16px;

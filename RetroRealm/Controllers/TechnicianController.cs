@@ -21,10 +21,27 @@ namespace RetroRealm.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit()
+        public IActionResult Edit(int id)
         {
             ViewBag.Action = "Edit";
-            return View();
+            TechnicianModel? technician = Context.Technicians.Find(id);
+            return View("Edit", technician);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(TechnicianModel technician)
+        {
+            if (ModelState.IsValid)
+            {
+                if (technician.TechnicianModelId == 0)
+                    Context.Technicians.Add(technician);
+                else
+                    Context.Technicians.Update(technician);
+                Context.SaveChanges();
+                return RedirectToAction("List");
+            }
+            ViewBag.Action = (technician.TechnicianModelId == 0) ? "Add" : "Edit";
+            return View(technician);
         }
 
         [HttpGet]
@@ -32,6 +49,13 @@ namespace RetroRealm.Controllers
         {
             TechnicianModel? technician = Context.Technicians.Find(id);
             return View(technician);
+        }
+        [HttpPost]
+        public IActionResult Delete(TechnicianModel technician)
+        {
+            Context.Technicians.Remove(technician);
+            Context.SaveChanges();
+            return RedirectToAction("List");
         }
     }
 }
