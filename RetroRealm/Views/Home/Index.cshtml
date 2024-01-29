@@ -13,7 +13,7 @@
         <a class="list-group-item list-group-item-action" asp-controller="Game" asp-action="ManageGames">Manage Products</a>
         <a class="list-group-item list-group-item-action" asp-controller="Technician" asp-action="List">Manage Technicians</a>
         <a class="list-group-item list-group-item-action" asp-controller="Customer" asp-action="List">Manage Customers</a>
-        <a class="list-group-item list-group-item-action" asp-controller="Game" asp-action="ManageGames">Manage Incidents</a>
+        <a class="list-group-item list-group-item-action" asp-controller="Incidents" asp-action="List">Manage Incidents</a>
         @foreach (string permission in adminPerms)
         {
             <a href="#" class="list-group-item list-group-item-action">@permission</a>
