@@ -1,0 +1,83 @@
+﻿@model CustomerModel
+@{
+    ViewBag.Title = ViewBag.Action;
+}
+
+<h2 class="fs-1">@ViewBag.Action Customer</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="form-floating retro-form">
+                <input asp-for="Firstname" type="text" class="form-control" id="floatingInput" placeholder="Name">
+                <label asp-for="Firstname" for="floatingInput">First Name</label>
+            </div>
+            <span class="text-danger fw-bold" asp-validation-for="Firstname"></span>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating retro-form">
+                <input asp-for="Lastname" type="text" class="form-control" id="floatingInput" placeholder="Name">
+                <label asp-for="Lastname" for="floatingInput">Last Name</label>
+            </div>
+            <span class="text-danger fw-bold" asp-validation-for="Lastname"></span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="form-floating retro-form">
+            <input asp-for="Address" type="text" class="form-control" id="floatingInput" placeholder="Name">
+            <label asp-for="Address" for="floatingInput">Address</label>
+        </div>
+        <span class="text-danger fw-bold" asp-validation-for="Address"></span>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="form-floating retro-form">
+                <input asp-for="City" type="text" class="form-control" id="floatingInput" placeholder="Name">
+                <label asp-for="City" for="floatingInput">City</label>
+            </div>
+            <span class="text-danger fw-bold" asp-validation-for="City"></span>
+        </div>
+        <div class="col-md-4">
+            <div class="form-floating retro-form">
+                <input asp-for="State" type="text" class="form-control" id="floatingInput" placeholder="Name">
+                <label asp-for="State" for="floatingInput">State</label>
+            </div>
+            <span class="text-danger fw-bold" asp-validation-for="State"></span>
+        </div>
+        <div class="col-md-4">
+            <div class="form-floating retro-form">
+                <input asp-for="PostalCode" type="text" class="form-control" id="floatingInput" placeholder="Name">
+                <label asp-for="PostalCode" for="floatingInput">Postal Code</label>
+            </div>
+            <span class="text-danger fw-bold" asp-validation-for="PostalCode"></span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="form-floating retro-form">
+            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                <option hidden selected>--- Select a Country ---</option>
+            </select>
+            <label for="floatingSelect">Select a Country</label>
+        </div>
+        <span class="text-danger fw-bold" asp-validation-for="PostalCode"></span>
+    </div>
+    <div clas
+    <div class="mb-3">
+        <div class="form-floating retro-form">
+            <input asp-for="Email" type="text" class="form-control" id="floatingInput" placeholder="email@example.com">
+            <label asp-for="Email" for="floatingInput">Email</label>
+        </div>
+        <span class="text-danger fw-bold" asp-validation-for="Email"></span>
+    </div>
+    <div class="mb-3">
+        <div class="form-floating retro-form">
+            <input asp-for="Phone" type="text" class="form-control" id="floatingInput" placeholder="111-222-3333">
+            <label asp-for="Phone" for="floatingInput">Phone</label>
+        </div>
+        <span class="text-danger fw-bold" asp-validation-for="Phone"></span>
+    </div>
+    <input type="hidden" asp-for="CustomerModelId" />
+    <button class="btn-retro" type="submit">Save</button>
+    <a asp-controller="Customer" asp-action="List"
+       class="btn-retro text-decoration-none ms-3">Cancel</a>
+</form>

@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Customer Manager";
+}
+
+<h2 class="fs-1">Customer Manager</h2>
+
+<table class="table retro-table">
+    <thead>
+        <tr class="">
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">City</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="">
+            <td scope="row">Ania Irvin</td>
+            <td>ania@yahoo.com</td>
+            <td>Washington</td>
+            <td class="w-25">
+                <div class="d-flex justify-content-around">
+                    <a asp-controller="Customer" asp-action="Edit"
+                       class="btn-retro text-decoration-none">Edit</a>
+                    <a asp-controller="Customer" asp-action="Delete"
+                       class="btn-retro text-decoration-none">Delete</a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<a class="btn-retro text-decoration-none fs-5" asp-controller="Customer" asp-action="Add">Add Customer</a>

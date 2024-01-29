@@ -66,6 +66,19 @@ namespace RetroRealm.Models
                     Email = "johnd@retrorealmsoftware.com",
                     Phone = "111-222-3333"
                 });
+            modelBuilder.Entity<CustomerModel>().HasData(
+                new CustomerModel()
+                {
+                    CustomerModelId = 1,
+                    Firstname = "Ania",
+                    Lastname = "Irvin",
+                    Address = "",
+                    City = "",
+                    State = "",
+                    PostalCode = "",
+                    Email = "ania@yahoo.com",
+                    Phone = "314-890-7889"
+                });
         }
     }
 }

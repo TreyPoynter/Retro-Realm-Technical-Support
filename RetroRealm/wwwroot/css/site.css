@@ -104,17 +104,4 @@ h2, h3, h1, .retro {
     transform: translateY(2px);
 }
 
-/* INPUT */
-.retro-form {
-    background-color: #F3EFEF;
-    color: #454545;
-}
-.retro-form input {
-    background-color: #f3efef;
-    border-color: #AFAFAF;
-}
-.retro-form input:focus {
-    background-color: #e0e0e0;
-}
-
 
