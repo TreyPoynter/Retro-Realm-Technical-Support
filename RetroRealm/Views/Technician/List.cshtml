@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<TechnicianModel>
+@{
     ViewBag.Title = "Technician Manager";
 }
 
@@ -14,19 +15,23 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="">
-            <td scope="row">Alison Diaz</td>
-            <td>alison@retrorealmsoftware.com</td>
-            <td>800-555-0449</td>
-            <td class="w-25">
-                <div class="d-flex justify-content-around">
-                    <a asp-controller="Technician" asp-action="Edit"
-                       class="btn-retro text-decoration-none">Edit</a>
-                    <a asp-controller="Technician" asp-action="Delete"
-                       class="btn-retro text-decoration-none">Delete</a>
-                </div>
-            </td>
-        </tr>
+        @foreach(TechnicianModel technician in Model)
+        {
+            <tr class="">
+                <td scope="row">@technician.Name</td>
+                <td>@technician.Email</td>
+                <td>@technician.Phone</td>
+                <td class="w-25">
+                    <div class="d-flex justify-content-around">
+                        <a asp-route-id="@technician.TechnicianModelId" asp-controller="Technician" asp-action="Edit"
+                           class="btn-retro text-decoration-none">Edit</a>
+                        <a asp-route-id="@technician.TechnicianModelId" asp-controller="Technician" asp-action="Delete"
+                           class="btn-retro text-decoration-none">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+        
     </tbody>
 </table>
 <a class="btn-retro text-decoration-none fs-5" asp-controller="Technician" asp-action="Add">Add Technician</a>

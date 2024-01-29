@@ -5,10 +5,13 @@ namespace RetroRealm.Controllers
 {
     public class TechnicianController : Controller
     {
+        public GameModelContext Context { get; set; }
+        public TechnicianController(GameModelContext ctx) => Context = ctx;
         [HttpGet]
         public IActionResult List()
         {
-            return View();
+            List<TechnicianModel> technicians = Context.Technicians.OrderBy(g => g.Name).ToList();
+            return View(technicians);
         }
         [HttpGet]
         public IActionResult Add()
@@ -25,9 +28,10 @@ namespace RetroRealm.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete()
+        public IActionResult Delete(int id)
         {
-            return View();
+            TechnicianModel? technician = Context.Technicians.Find(id);
+            return View(technician);
         }
     }
 }
