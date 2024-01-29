@@ -6,11 +6,26 @@ namespace RetroRealm.Models
     {
         public DbSet<GameModel> Games { get; set; }
         public DbSet<TechnicianModel> Technicians { get; set; }
+        public DbSet<CustomerModel> Customers { get; set; }
+        public DbSet<CountryModel> Countries { get; set; }
 
         public GameModelContext(DbContextOptions<GameModelContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CountryModel>().HasData(
+                new CountryModel() { CountryModelId = 1, Country = "United States" },
+                new CountryModel() { CountryModelId = 2, Country = "Canada" },
+                new CountryModel() { CountryModelId = 3, Country = "United Kingdom" },
+                new CountryModel() { CountryModelId = 4, Country = "Germany" },
+                new CountryModel() { CountryModelId = 5, Country = "France" },
+                new CountryModel() { CountryModelId = 6, Country = "Australia" },
+                new CountryModel() { CountryModelId = 7, Country = "Japan" },
+                new CountryModel() { CountryModelId = 8, Country = "Brazil" },
+                new CountryModel() { CountryModelId = 9, Country = "India" },
+                new CountryModel() { CountryModelId = 10, Country = "South Africa" }
+            );
+
             modelBuilder.Entity<GameModel>().HasData(
                 new GameModel
                 {
@@ -72,12 +87,13 @@ namespace RetroRealm.Models
                     CustomerModelId = 1,
                     Firstname = "Ania",
                     Lastname = "Irvin",
-                    Address = "",
-                    City = "",
-                    State = "",
-                    PostalCode = "",
+                    Address = "989 Beach Way",
+                    City = "San Fransisco",
+                    State = "CA",
+                    PostalCode = "94110",
                     Email = "ania@yahoo.com",
-                    Phone = "314-890-7889"
+                    Phone = "314-890-7889",
+                    CountryModelId = 1
                 });
         }
     }

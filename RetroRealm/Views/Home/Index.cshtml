@@ -1,5 +1,5 @@
 ﻿@{
-    string[] adminPerms = { "Manage Technicians", "Manage Customers", "Manage Incidents", "Registrations" };
+    string[] adminPerms = { "Registrations" };
     string[] techPerms = {"Update Incident"};
     ViewData["Title"] = "Home";
 }
@@ -11,6 +11,9 @@
     <h3 class="fs-1">Admin</h3>
     <ul class="list-group">
         <a class="list-group-item list-group-item-action" asp-controller="Game" asp-action="ManageGames">Manage Products</a>
+        <a class="list-group-item list-group-item-action" asp-controller="Technician" asp-action="List">Manage Technicians</a>
+        <a class="list-group-item list-group-item-action" asp-controller="Customer" asp-action="List">Manage Customers</a>
+        <a class="list-group-item list-group-item-action" asp-controller="Game" asp-action="ManageGames">Manage Incidents</a>
         @foreach (string permission in adminPerms)
         {
             <a href="#" class="list-group-item list-group-item-action">@permission</a>

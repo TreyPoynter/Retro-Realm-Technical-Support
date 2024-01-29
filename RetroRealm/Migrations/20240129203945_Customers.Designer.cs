@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RetroRealm.Models;
 
@@ -11,9 +12,11 @@ using RetroRealm.Models;
 namespace RetroRealm.Migrations
 {
     [DbContext(typeof(GameModelContext))]
-    partial class GameModelContextModelSnapshot : ModelSnapshot
+    [Migration("20240129203945_Customers")]
+    partial class Customers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace RetroRealm.Migrations
 
                     b.HasKey("CountryModelId");
 
-                    b.ToTable("Countries");
+                    b.ToTable("CountryModel");
 
                     b.HasData(
                         new
@@ -138,7 +141,7 @@ namespace RetroRealm.Migrations
 
                     b.HasIndex("CountryModelId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("CustomerModel");
 
                     b.HasData(
                         new

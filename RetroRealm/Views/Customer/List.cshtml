@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<CustomerModel>
+@{
     ViewBag.Title = "Customer Manager";
 }
 
@@ -14,19 +15,24 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="">
-            <td scope="row">Ania Irvin</td>
-            <td>ania@yahoo.com</td>
-            <td>Washington</td>
+        @foreach(CustomerModel customer in Model)
+        {
+            <tr class="">
+            <td scope="row">@customer.Firstname @customer.Lastname</td>
+            <td>@customer.Email</td>
+            <td>@customer.City</td>
             <td class="w-25">
                 <div class="d-flex justify-content-around">
-                    <a asp-controller="Customer" asp-action="Edit"
+                    <a asp-route-id="@customer.CustomerModelId" asp-controller="Customer" asp-action="Edit"
                        class="btn-retro text-decoration-none">Edit</a>
-                    <a asp-controller="Customer" asp-action="Delete"
+                        <a asp-route-id="@customer.CustomerModelId" asp-controller="Customer" asp-action="Delete"
                        class="btn-retro text-decoration-none">Delete</a>
                 </div>
             </td>
-        </tr>
+            </tr>
+        }
+        
+        
     </tbody>
 </table>
 <a class="btn-retro text-decoration-none fs-5" asp-controller="Customer" asp-action="Add">Add Customer</a>

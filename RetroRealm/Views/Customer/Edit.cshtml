@@ -54,10 +54,14 @@
     </div>
     <div class="mb-3">
         <div class="form-floating retro-form">
-            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                <option hidden selected>--- Select a Country ---</option>
+            <select asp-for="CountryModelId" class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                <option hidden selected value="0">--- Select a Country ---</option>
+                @foreach(CountryModel country in ViewBag.Countries)
+                {
+                    <option value="@country.CountryModelId">@country.Country</option>
+                }
             </select>
-            <label for="floatingSelect">Select a Country</label>
+            <label asp-for="CountryModelId" for="floatingSelect">Select a Country</label>
         </div>
         <span class="text-danger fw-bold" asp-validation-for="PostalCode"></span>
     </div>

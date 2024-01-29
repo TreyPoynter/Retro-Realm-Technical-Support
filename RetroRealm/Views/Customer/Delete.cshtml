@@ -1,15 +1,15 @@
-﻿@model TechnicianModel
+﻿@model CustomerModel
 @{
     ViewBag.Title = $"Confirm Deletion";
 }
 
 <div>
     <h2 class="fs-1">Confirm Deletion</h2>
-    <p class="fs-5">Are you sure you want to delete <span class="fw-bold text-uppercase">CUSTOMER</span></p>
+    <p class="fs-5">Are you sure you want to delete <span class="fw-bold text-uppercase">@Model.Firstname @Model.Lastname</span></p>
 </div>
 
 <form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="TechnicianModelId" />
+    <input type="hidden" asp-for="CustomerModelId" />
     <button type="submit" class="btn-retro text-decoration-none">Yes</button>
     <a asp-controller="Customer" asp-action="List" class="btn-retro text-decoration-none ms-3">No</a>
 </form>

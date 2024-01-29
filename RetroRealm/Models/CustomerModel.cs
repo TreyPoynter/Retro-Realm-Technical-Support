@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace RetroRealm.Models
 {
@@ -30,5 +31,9 @@ namespace RetroRealm.Models
         [Required(ErrorMessage = "A phone number is required!")]
         [Phone(ErrorMessage = "Not a valid phone number")]
         public string? Phone { get; set; }
+
+        [ValidateNever]
+        public CountryModel CountryModel { get; set; } = null!;
+        public int CountryModelId { get; set; }
     }
 }
