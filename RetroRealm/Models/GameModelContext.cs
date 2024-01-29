@@ -8,6 +8,7 @@ namespace RetroRealm.Models
         public DbSet<TechnicianModel> Technicians { get; set; }
         public DbSet<CustomerModel> Customers { get; set; }
         public DbSet<CountryModel> Countries { get; set; }
+        public DbSet<IncidentModel> Incidents { get; set; }
 
         public GameModelContext(DbContextOptions<GameModelContext> options) : base(options) { }
 
@@ -94,6 +95,17 @@ namespace RetroRealm.Models
                     Email = "ania@yahoo.com",
                     Phone = "314-890-7889",
                     CountryModelId = 1
+                });
+            modelBuilder.Entity<IncidentModel>().HasData(
+                new IncidentModel()
+                {
+                    IncidentModelId = 1,
+                    CustomerModelId = 1,
+                    GameModelId = 2,
+                    Title = "Error launching game",
+                    Description = "When I insert cartridge the game flashes and crashes",
+                    TechnicianModelId = 3,
+                    DateOpened = new DateTime(2024, 1, 20)
                 });
         }
     }
