@@ -1,5 +1,7 @@
-﻿@{
+﻿@model List<IncidentModel>
+@{
     ViewBag.Title = "Incident Manager";
+    string dateFormat = "MM/dd/yyyy";
 }
 
 <h2 class="fs-1">Incident Manager</h2>
@@ -15,20 +17,23 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="">
-            <td scope="row">Could not install</td>
-            <td>Ania Irvin</td>
-            <td>Pac-Man</td>
-            <td>1/29/2024</td>
-            <td class="w-25">
-                <div class="d-flex justify-content-around">
-                    <a asp-controller="Customer" asp-action="Edit"
-                       class="btn-retro text-decoration-none">Edit</a>
-                    <a asp-controller="Customer" asp-action="Delete"
-                       class="btn-retro text-decoration-none">Delete</a>
-                </div>
-            </td>
-        </tr>
+        @foreach(IncidentModel incident in Model)
+        {
+            <tr class="">
+                <td scope="row">@incident.Title</td>
+                <td>@incident.Customer.Firstname @incident.Customer.Lastname</td>
+                <td>@incident.Game.Title</td>
+                <td>@incident.DateOpened.Value.ToString(dateFormat)</td>
+                <td class="w-25">
+                    <div class="d-flex justify-content-around">
+                        <a asp-controller="Customer" asp-action="Edit"
+                           class="btn-retro text-decoration-none">Edit</a>
+                        <a asp-controller="Customer" asp-action="Delete"
+                           class="btn-retro text-decoration-none">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-<a class="btn-retro text-decoration-none fs-5" asp-controller="Customer" asp-action="Add">Add Incident</a>
+<a class="btn-retro text-decoration-none fs-5" asp-controller="Incident" asp-action="Add">Add Incident</a>
