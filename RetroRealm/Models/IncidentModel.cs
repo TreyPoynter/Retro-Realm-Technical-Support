@@ -11,7 +11,7 @@ namespace RetroRealm.Models
         [Required(ErrorMessage = "A description is required!")]
         public string? Description { get; set; }
         [Required(ErrorMessage = "Open date is required!")]
-        [Range(typeof(DateTime), "1900-01-01", "{0:yyyy-MM-dd}", ErrorMessage = "Date must be on or before the current date.")]
+        [ValidateDate]
         public DateTime? DateOpened { get; set; }
         public DateTime? DateClosed { get; set; }
 

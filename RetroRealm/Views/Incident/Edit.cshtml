@@ -62,20 +62,21 @@
         <span class="text-danger fw-bold" asp-validation-for="TechnicianModelId"></span>
     </div>
     <div class="mb-3">
-        <div class="retro-form form-floating">
+        <div class="retro-form">
             <label asp-for="DateClosed">Select an Opening Date:</label>
-            <input asp-for="DateOpened" type="date" id="datepicker" class="form-control" />
+            <input asp-for="DateOpened" type="date" id="datepicker" class="form-control"/>
         </div>
         <span class="text-danger fw-bold" asp-validation-for="DateOpened"></span>
     </div>
     <div class="mb-3">
-        <div class="retro-form form-floating">
+        <div class="retro-form">
             <label asp-for="DateClosed">Select a Closed Date (optional):</label>
-            <input asp-for="DateClosed" type="date" id="datepicker" class="form-control" />
+            <input asp-for="DateClosed" type="date" id="datepicker" class="form-control"
+                   max="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" min="@DateTime.Now.AddYears(-1).ToString("yyyy-MM-ddThh:mm")" />
         </div>
     </div>
     
-    <input type="hidden" asp-for="TechnicianModelId" />
+    <input type="hidden" asp-for="IncidentModelId" />
     <button class="btn-retro" type="submit">Save</button>
     <a asp-controller="Incident" asp-action="List"
        class="btn-retro text-decoration-none ms-3">Cancel</a>

@@ -26,10 +26,10 @@
                 <td>@incident.DateOpened.Value.ToString(dateFormat)</td>
                 <td class="w-25">
                     <div class="d-flex justify-content-around">
-                        <a asp-controller="Customer" asp-action="Edit"
-                           class="btn-retro text-decoration-none">Edit</a>
-                        <a asp-controller="Customer" asp-action="Delete"
-                           class="btn-retro text-decoration-none">Delete</a>
+                        <a asp-controller="Incident" asp-action="Edit"
+                           asp-route-id="@incident.IncidentModelId" class="btn-retro text-decoration-none">Edit</a>
+                        <a asp-controller="Incident" asp-action="Delete"
+                           asp-route-id="@incident.IncidentModelId" class="btn-retro text-decoration-none">Delete</a>
                     </div>
                 </td>
             </tr>

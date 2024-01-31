@@ -51,8 +51,26 @@ namespace RetroRealm.Controllers
                 Context.SaveChanges();
                 return RedirectToAction("List");
             }
+            if (incident.DateClosed > DateTime.Now)
+            {
+                ModelState.AddModelError("DateClosed", "Closed date cannot be in the future.");
+            }
             ViewBag.Action = (incident.IncidentModelId == 0) ? "Add" : "Edit";
             return View(incident);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            IncidentModel? incident = Context.Incidents.Find(id);
+            return View(incident);
+        }
+        [HttpPost]
+        public IActionResult Delete(IncidentModel incident)
+        {
+            Context.Incidents.Remove(incident);
+            Context.SaveChanges();
+            return RedirectToAction("List");
         }
     }
 }
