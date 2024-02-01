@@ -56,6 +56,13 @@ namespace RetroRealm.Models
             modelBuilder.Entity<TechnicianModel>().HasData(
                 new TechnicianModel()
                 {
+                    TechnicianModelId = -1,
+                    Name = "Not Assigned",
+                    Email = "",
+                    Phone = ""
+                },
+                new TechnicianModel()
+                {
                     TechnicianModelId = 1,
                     Name = "Alison Diaz",
                     Email = "alison@retrorealmsoftware.com",

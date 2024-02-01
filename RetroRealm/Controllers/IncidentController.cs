@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Migrations;
 using RetroRealm.Models;
+using System.Linq;
 
 namespace RetroRealm.Controllers
 {
@@ -20,18 +21,14 @@ namespace RetroRealm.Controllers
         public IActionResult Add()
         {
             ViewBag.Action = "Add";
-            ViewBag.Customers = Context.Customers.OrderBy(c => c.Firstname).ToList();
-            ViewBag.Games = Context.Games.OrderBy(g => g.Title).ToList();
-            ViewBag.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
+            GetViewBagOptions();
             return View("Edit", new IncidentModel());
         }
         [HttpGet]
         public IActionResult Edit(int id)
         {
             ViewBag.Action = "Edit";
-            ViewBag.Customers = Context.Customers.OrderBy(c => c.Firstname).ToList();
-            ViewBag.Games = Context.Games.OrderBy(g => g.Title).ToList();
-            ViewBag.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
+            GetViewBagOptions();
             IncidentModel? incident = Context.Incidents.Find(id);
             return View("Edit", incident);
         }
@@ -39,9 +36,7 @@ namespace RetroRealm.Controllers
         [HttpPost]
         public IActionResult Edit(IncidentModel incident)
         {
-            ViewBag.Customers = Context.Customers.OrderBy(c => c.Firstname).ToList();
-            ViewBag.Games = Context.Games.OrderBy(g => g.Title).ToList();
-            ViewBag.Technicians = Context.Technicians.OrderBy(t => t.Name).ToList();
+            GetViewBagOptions();
             if (ModelState.IsValid)
             {
                 if (incident.IncidentModelId == 0)
@@ -71,6 +66,14 @@ namespace RetroRealm.Controllers
             Context.Incidents.Remove(incident);
             Context.SaveChanges();
             return RedirectToAction("List");
+        }
+
+        void GetViewBagOptions()
+        {
+            ViewBag.Customers = Context.Customers.OrderBy(c => c.Firstname).ToList();
+            ViewBag.Games = Context.Games.OrderBy(g => g.Title).ToList();
+            ViewBag.Technicians = Context.Technicians.Where(t => t.TechnicianModelId != -1)
+                .OrderBy(t => t.TechnicianModelId).ToList();
         }
     }
 }

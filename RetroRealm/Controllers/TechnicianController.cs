@@ -10,7 +10,8 @@ namespace RetroRealm.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            List<TechnicianModel> technicians = Context.Technicians.OrderBy(g => g.Name).ToList();
+            List<TechnicianModel> technicians = Context.Technicians.Where(t => t.TechnicianModelId != -1)
+            .OrderBy(g => g.Name).ToList();
             return View(technicians);
         }
         [HttpGet]

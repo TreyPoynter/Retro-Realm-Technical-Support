@@ -52,12 +52,13 @@
         <div class="form-floating retro-form">
             <select asp-for="TechnicianModelId" class="form-select" id="floatingSelect">
                 <option hidden selected value="">--- Select a Technician ---</option>
+                <option selected value="-1">Not Assigned</option>
                 @foreach (TechnicianModel technician in ViewBag.Technicians)
                 {
                     <option value="@technician.TechnicianModelId">@technician.Name</option>
                 }
             </select>
-            <label asp-for="Description" for="floatingInput">Technician</label>
+            <label asp-for="Description" for="floatingInput">Assigned To</label>
         </div>
         <span class="text-danger fw-bold" asp-validation-for="TechnicianModelId"></span>
     </div>

@@ -24,11 +24,9 @@ namespace RetroRealm.Models
         [Required(ErrorMessage = "A postal code is required")]
         public string? PostalCode { get; set; }
 
-        [Required(ErrorMessage = "An email is required!")]
         [EmailAddress(ErrorMessage = "Not a valid email address")]
         public string? Email { get; set; }
 
-        [Required(ErrorMessage = "A phone number is required!")]
         [Phone(ErrorMessage = "Not a valid phone number")]
         public string? Phone { get; set; }
 
