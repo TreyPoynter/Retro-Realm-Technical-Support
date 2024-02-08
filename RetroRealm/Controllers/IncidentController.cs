@@ -11,7 +11,7 @@ namespace RetroRealm.Controllers
         public GameModelContext Context { get; set; }
         public IncidentController(GameModelContext ctx) => Context = ctx;
 
-        [HttpGet]
+        [HttpGet("incidents")]
         public IActionResult List()
         {
             List <IncidentModel> incidents = Context.Incidents.Include(i => i.Customer).Include(i => i.Game).ToList();

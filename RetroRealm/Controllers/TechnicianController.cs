@@ -7,7 +7,8 @@ namespace RetroRealm.Controllers
     {
         public GameModelContext Context { get; set; }
         public TechnicianController(GameModelContext ctx) => Context = ctx;
-        [HttpGet]
+
+        [HttpGet("technicians")]
         public IActionResult List()
         {
             List<TechnicianModel> technicians = Context.Technicians.Where(t => t.TechnicianModelId != -1)

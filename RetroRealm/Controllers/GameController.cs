@@ -13,7 +13,7 @@ namespace RetroRealm.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpGet("games")]
         public IActionResult ManageGames()
         {
             List<GameModel> games = Context.Games.OrderBy(g => g.ReleaseDate).ToList();

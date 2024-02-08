@@ -9,7 +9,7 @@ namespace RetroRealm.Controllers
         public GameModelContext Context { get; set; }
         public CustomerController(GameModelContext ctx) => Context = ctx;
 
-        [HttpGet]
+        [HttpGet("customers")]
         public IActionResult List()
         {
             List<CustomerModel> customers = Context.Customers.Include(c => c.CountryModel).OrderBy(c => c.Firstname).ToList();
