@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "_Layout";
+
+    string AddActiveClass(string[] paths)
+    {
+        // strip the path to only the first segment and remove all white space
+        string strippedPath = Context.Request.Path.ToString().Replace('/', ' ').Split(' ')[1].Trim();
+        return paths.Contains(strippedPath) ? "active" : "";
+    }
+}
+
+<header id="header-nav">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">RetroRealm</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link @AddActiveClass([""])" 
+                        asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @AddActiveClass(["games", "game"])" 
+                        asp-area="" asp-controller="Game" asp-action="ManageGames">Manage Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @AddActiveClass(["technicians", "technician"])" 
+                        asp-area="" asp-controller="Technician" asp-action="List">Technicians</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @AddActiveClass(["customers", "customer"])" 
+                        asp-area="" asp-controller="Customer" asp-action="List">Customers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @AddActiveClass(["incidents", "incident"])"
+                        asp-area="" asp-controller="Incident" asp-action="List">Incidents</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @AddActiveClass(["registrations", "registration"])"
+                        asp-area="" asp-controller="Home" asp-action="Index">Registrations</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link @AddActiveClass(["about"])"
+                        asp-area="" asp-controller="Home" asp-action="About">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
