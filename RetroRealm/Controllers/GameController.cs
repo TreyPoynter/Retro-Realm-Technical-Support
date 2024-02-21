@@ -53,7 +53,11 @@ namespace RetroRealm.Controllers
             if (ModelState.IsValid)
             {
                 if (game.GameModelId == 0)
+                {
                     Context.Games.Add(game);
+                    TempData["ToastTitle"] = "Game Added";
+                    TempData["ToastMessage"] = $"{game.Title} was successfully added";
+                }
                 else
                     Context.Games.Update(game);
                 Context.SaveChanges();
@@ -61,6 +65,13 @@ namespace RetroRealm.Controllers
             }
             ViewBag.Action = (game.GameModelId == 0) ? "Add" : "Edit";
             return View(game);
+        }
+
+        [HttpPost]
+        public ActionResult ClearTempData()
+        {
+            TempData.Clear();
+            return RedirectToAction("ManageGames");
         }
     }
 }

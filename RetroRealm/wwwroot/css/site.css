@@ -104,4 +104,66 @@ h2, h3, h1, .retro {
     transform: translateY(2px);
 }
 
+/* Windows 98 Notification */
+.window {
+    background: silver;
+    box-shadow: inset -1px -1px #0a0a0a,inset 1px 1px #dfdfdf,inset -2px -2px grey,inset 2px 2px #fff;
+    padding: 3px;
+    font-family: "MS Sans Serif", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size:12px;
+    color: #222;
+}
 
+.title-bar {
+    align-items: center;
+    background: linear-gradient(90deg,navy,#1084d0);
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 2px 3px 3px;
+}
+
+.title-bar-text {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0;
+    margin-right: 24px;
+}
+
+.title-bar-controls {
+    display: flex;
+}
+
+    .title-bar-controls button {
+        display: block;
+        min-height: 14px;
+        min-width: 16px;
+        padding: 0;
+        background: silver;
+        background-position-x: 0%;
+        background-position-y: 0%;
+        background-repeat: repeat;
+        background-image: none;
+        box-shadow: inset -1px -1px #0a0a0a,inset 1px 1px #fff,inset -2px -2px grey,inset 2px 2px #dfdfdf;
+        border: none;
+        border-radius: 0;
+        box-sizing: border-box;
+        color: transparent;
+        text-shadow: 0 0 #222;
+    }
+        .title-bar-controls button[aria-label="Close"] {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='8' height='7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 0h2v1h1v1h2V1h1V0h2v1H7v1H6v1H5v1h1v1h1v1h1v1H6V6H5V5H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0V0z' fill='%23000'/%3E%3C/svg%3E");
+            background-position: top 3px left 4px;
+            background-repeat: no-repeat;
+            margin-left: 2px;
+        }
+
+.window-body {
+    margin: 8px;
+}
+
+    .window-body p {
+        max-width: 50rem;
+        line-height: 1.5;
+    }

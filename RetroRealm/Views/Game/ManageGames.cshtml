@@ -2,9 +2,43 @@
 
 @{
     ViewBag.Title = "Game Manager";
+
+    void ClearTempData()
+    {
+        TempData.Clear();
+    }
 }
 
-<h2 class="fs-1">Game Manager</h2>
+
+
+<div class="row justify-content-between mb-3">
+    <div class="col-lg-6">
+        <h2 class="fs-1">Game Manager</h2>
+    </div>
+    <div class="col-lg-6">
+        @if(TempData["ToastMessage"] != null)
+        {
+            <div class="window" style="width: 100%">
+                <div class="title-bar">
+                    <div class="title-bar-text">@TempData["ToastTitle"]</div>
+                    <div class="title-bar-controls">
+                        @using (Html.BeginForm("ClearTempData", "Game", FormMethod.Post))
+                        {
+                            <button aria-label="Close" type="submit"></button>
+                        }
+                    </div>
+                </div>
+                <div class="window-body">
+                    <p> @TempData["ToastMessage"]</p>
+                </div>
+            </div>
+        }
+        
+    </div>
+    
+    
+</div>
+
 
 <table class="table retro-table">
     <thead>
