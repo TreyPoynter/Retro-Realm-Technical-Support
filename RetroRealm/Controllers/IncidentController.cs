@@ -14,8 +14,13 @@ namespace RetroRealm.Controllers
         [HttpGet("incidents")]
         public IActionResult List()
         {
-            List <IncidentModel> incidents = Context.Incidents.Include(i => i.Customer).Include(i => i.Game).ToList();
-            return View(incidents);
+            List <IncidentModel> incidents = Context.Incidents.Include(c => c.Customer).Include(g => g.Game).ToList();
+            IncidentVM incidentVM = new()
+            {
+                Incidents = incidents,
+                Filter = "All"
+            };
+            return View(incidentVM);
         }
         [HttpGet]
         public IActionResult Add()

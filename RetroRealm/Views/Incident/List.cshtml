@@ -1,4 +1,4 @@
-﻿@model List<IncidentModel>
+﻿@model IncidentVM
 @{
     ViewBag.Title = "Incident Manager";
     string dateFormat = "MM/dd/yyyy";
@@ -17,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(IncidentModel incident in Model)
+        @foreach(IncidentModel incident in Model.Incidents)
         {
             <tr class="">
                 <td scope="row">@incident.Title</td>
