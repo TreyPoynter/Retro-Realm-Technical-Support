@@ -8,26 +8,26 @@ namespace RetroRealm.Controllers
         public GameModelContext Context { get; set; }
         public GameController(GameModelContext ctx) => Context = ctx;
 
-        public IActionResult Index()
+        public ViewResult Index()
         {
             return View();
         }
 
         [HttpGet("games")]
-        public IActionResult ManageGames()
+        public ViewResult ManageGames()
         {
             List<GameModel> games = Context.Games.OrderBy(g => g.ReleaseDate).ToList();
             return View(games);
         }
         
         [HttpGet]
-        public IActionResult Delete(int id) 
+        public ViewResult Delete(int id) 
         {
             GameModel? game = Context.Games.Find(id);
             return View(game);
         }
         [HttpPost]
-        public IActionResult Delete(GameModel game)
+        public ActionResult Delete(GameModel game)
         {
             Context.Games.Remove(game);
             Context.SaveChanges();
@@ -35,20 +35,20 @@ namespace RetroRealm.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public ViewResult Add()
         {
             ViewBag.Action = "Add";
             return View("Edit", new GameModel());
         }
         [HttpGet]
-        public IActionResult Edit(int id)
+        public ViewResult Edit(int id)
         {
             ViewBag.Action = "Edit";
             GameModel? game = Context.Games.Find(id);
             return View(game);
         }
         [HttpPost]
-        public IActionResult Edit(GameModel game)
+        public ActionResult Edit(GameModel game)
         {
             if (ModelState.IsValid)
             {
