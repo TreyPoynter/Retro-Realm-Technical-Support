@@ -25,38 +25,40 @@ namespace RetroRealm.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            ViewBag.Action = "Add";
             GetViewBagOptions();
-            return View("Edit", new IncidentModel());
+            return View("Edit", new IncidentVM() { Action = "Add" });
         }
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            ViewBag.Action = "Edit";
             GetViewBagOptions();
-            IncidentModel? incident = Context.Incidents.Find(id);
+            IncidentVM? incident = new()
+            {
+                Action = "Edit",
+                CurrentIncident = Context.Incidents.Find(id)
+            };
             return View("Edit", incident);
         }
 
         [HttpPost]
-        public IActionResult Edit(IncidentModel incident)
+        public IActionResult Edit(IncidentVM incidentVM)
         {
             GetViewBagOptions();
             if (ModelState.IsValid)
             {
-                if (incident.IncidentModelId == 0)
-                    Context.Incidents.Add(incident);
+                if (incidentVM.CurrentIncident.IncidentModelId == 0)
+                    Context.Incidents.Add(incidentVM.CurrentIncident);
                 else
-                    Context.Incidents.Update(incident);
+                    Context.Incidents.Update(incidentVM.CurrentIncident);
                 Context.SaveChanges();
                 return RedirectToAction("List");
             }
-            if (incident.DateClosed > DateTime.Now)
+            if (incidentVM.CurrentIncident.DateClosed > DateTime.Now)
             {
                 ModelState.AddModelError("DateClosed", "Closed date cannot be in the future.");
             }
-            ViewBag.Action = (incident.IncidentModelId == 0) ? "Add" : "Edit";
-            return View(incident);
+            incidentVM.Action = (incidentVM.CurrentIncident.IncidentModelId == 0) ? "Add" : "Edit";
+            return View(incidentVM.CurrentIncident);
         }
 
         [HttpGet]

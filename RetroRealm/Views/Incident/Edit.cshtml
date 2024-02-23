@@ -1,56 +1,56 @@
-﻿@model IncidentModel
+﻿@model IncidentVM
 @{
     ViewBag.Title = ViewBag.Action;
     string formattedDate = "yyyy-MM-dd";
 }
 
-<h2 class="fs-1">@ViewBag.Action Incident</h2>
+<h2 class="fs-1">@Model.Action Incident</h2>
 
 <form asp-action="Edit" method="post">
     <div class="mb-3">
         <div class="form-floating retro-form">
-            <select asp-for="CustomerModelId" class="form-select" id="floatingSelect">
+            <select asp-for="CurrentIncident.CustomerModelId" class="form-select" id="floatingSelect">
                 <option hidden selected value="">--- Select a Customer ---</option>
                 @foreach (CustomerModel customer in ViewBag.Customers)
                 {
                     <option value="@customer.CustomerModelId">@customer.Firstname @customer.Lastname</option>
                 }
             </select>
-            <label asp-for="GameModelId" for="floatingSelect">Customer</label>
+            <label asp-for="CurrentIncident.GameModelId" for="floatingSelect">Customer</label>
         </div>
-        <span class="text-danger fw-bold" asp-validation-for="CustomerModelId"></span>
+        <span class="text-danger fw-bold" asp-validation-for="CurrentIncident.CustomerModelId"></span>
     </div>
     <div class="mb-3">
         <div class="form-floating retro-form">
-            <select asp-for="GameModelId" class="form-select" id="floatingSelect">
+            <select asp-for="CurrentIncident.GameModelId" class="form-select" id="floatingSelect">
                 <option hidden selected value="">--- Select a Game ---</option>
                 @foreach (GameModel game in ViewBag.Games)
                 {
                     <option value="@game.GameModelId">@game.Title</option>
                 }
             </select>
-            <label asp-for="GameModelId" for="floatingSelect">Game</label>
+            <label asp-for="CurrentIncident.GameModelId" for="floatingSelect">Game</label>
         </div>
-        <span class="text-danger fw-bold" asp-validation-for="GameModelId"></span>
+        <span class="text-danger fw-bold" asp-validation-for="CurrentIncident.GameModelId"></span>
     </div>
     
     <div class="mb-3">
         <div class="form-floating retro-form">
-            <input asp-for="Title" type="text" class="form-control" id="floatingInput" placeholder="Title">
-            <label asp-for="Title" for="floatingInput">Title</label>
+            <input asp-for="CurrentIncident.Title" type="text" class="form-control" id="floatingInput" placeholder="Title">
+            <label asp-for="CurrentIncident.Title" for="floatingInput">Title</label>
         </div>
-        <span class="text-danger fw-bold" asp-validation-for="Title"></span>
+        <span class="text-danger fw-bold" asp-validation-for="CurrentIncident.Title"></span>
     </div>
     <div class="mb-3">
         <div class="form-floating retro-form">
-            <input asp-for="Description" type="text" class="form-control" id="floatingInput" placeholder="Name">
-            <label asp-for="Description" for="floatingInput">Description</label>
+            <input asp-for="CurrentIncident.Description" type="text" class="form-control" id="floatingInput" placeholder="Name">
+            <label asp-for="CurrentIncident.Description" for="floatingInput">Description</label>
         </div>
-        <span class="text-danger fw-bold" asp-validation-for="Description"></span>
+        <span class="text-danger fw-bold" asp-validation-for="CurrentIncident.Description"></span>
     </div>
     <div class="mb-3">
         <div class="form-floating retro-form">
-            <select asp-for="TechnicianModelId" class="form-select" id="floatingSelect">
+            <select asp-for="CurrentIncident.TechnicianModelId" class="form-select" id="floatingSelect">
                 <option hidden selected value="">--- Select a Technician ---</option>
                 <option selected value="-1">Not Assigned</option>
                 @foreach (TechnicianModel technician in ViewBag.Technicians)
@@ -58,26 +58,26 @@
                     <option value="@technician.TechnicianModelId">@technician.Name</option>
                 }
             </select>
-            <label asp-for="Description" for="floatingInput">Assigned To</label>
+            <label asp-for="CurrentIncident.Description" for="floatingInput">Assigned To</label>
         </div>
-        <span class="text-danger fw-bold" asp-validation-for="TechnicianModelId"></span>
+        <span class="text-danger fw-bold" asp-validation-for="CurrentIncident.TechnicianModelId"></span>
     </div>
     <div class="mb-3">
         <div class="retro-form">
-            <label asp-for="DateClosed">Select an Opening Date:</label>
-            <input asp-for="DateOpened" type="date" id="datepicker" class="form-control"/>
+            <label asp-for="CurrentIncident.DateOpened">Select an Opening Date:</label>
+            <input asp-for="CurrentIncident.DateOpened" type="date" id="datepicker" class="form-control" />
         </div>
-        <span class="text-danger fw-bold" asp-validation-for="DateOpened"></span>
+        <span class="text-danger fw-bold" asp-validation-for="CurrentIncident.DateOpened"></span>
     </div>
     <div class="mb-3">
         <div class="retro-form">
-            <label asp-for="DateClosed">Select a Closed Date (optional):</label>
-            <input asp-for="DateClosed" type="date" id="datepicker" class="form-control"
+            <label asp-for="CurrentIncident.DateClosed">Select a Closed Date (optional):</label>
+            <input asp-for="CurrentIncident.DateClosed" type="date" id="datepicker" class="form-control"
                    max="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" min="@DateTime.Now.AddYears(-1).ToString("yyyy-MM-ddThh:mm")" />
         </div>
     </div>
     
-    <input type="hidden" asp-for="IncidentModelId" />
+    <input type="hidden" asp-for="CurrentIncident.IncidentModelId" />
     <button class="btn-retro" type="submit">Save</button>
     <a asp-controller="Incident" asp-action="List"
        class="btn-retro text-decoration-none ms-3">Cancel</a>
