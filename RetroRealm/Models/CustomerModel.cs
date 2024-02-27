@@ -12,6 +12,8 @@ namespace RetroRealm.Models
         [Required(ErrorMessage = "Last name is required")]
         public string? Lastname { get; set; }
 
+        public string? Fullname => $"{Firstname} {Lastname}";
+
         [Required(ErrorMessage = "An Address is required")]
         public string? Address { get; set; }
 
