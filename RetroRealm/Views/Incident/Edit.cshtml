@@ -9,26 +9,14 @@
 <form asp-action="Edit" method="post">
     <div class="mb-3">
         <div class="form-floating retro-form">
-            <select asp-for="CurrentIncident.CustomerModelId" class="form-select" id="floatingSelect">
-                <option hidden selected value="">--- Select a Customer ---</option>
-                @foreach (CustomerModel customer in ViewBag.Customers)
-                {
-                    <option value="@customer.CustomerModelId">@customer.Firstname @customer.Lastname</option>
-                }
-            </select>
+            <select asp-for="CurrentIncident.CustomerModelId" class="form-select" asp-items="@(new SelectList(ViewBag.Customers, "CustomerModelId", "Fullname"))"></select>
             <label asp-for="CurrentIncident.GameModelId" for="floatingSelect">Customer</label>
         </div>
         <span class="text-danger fw-bold" asp-validation-for="CurrentIncident.CustomerModelId"></span>
     </div>
     <div class="mb-3">
         <div class="form-floating retro-form">
-            <select asp-for="CurrentIncident.GameModelId" class="form-select" id="floatingSelect">
-                <option hidden selected value="">--- Select a Game ---</option>
-                @foreach (GameModel game in ViewBag.Games)
-                {
-                    <option value="@game.GameModelId">@game.Title</option>
-                }
-            </select>
+            <select asp-for="CurrentIncident.GameModelId" class="form-select" asp-items="@(new SelectList(ViewBag.Games, "GameModelId", "Title"))"></select>
             <label asp-for="CurrentIncident.GameModelId" for="floatingSelect">Game</label>
         </div>
         <span class="text-danger fw-bold" asp-validation-for="CurrentIncident.GameModelId"></span>
@@ -50,13 +38,9 @@
     </div>
     <div class="mb-3">
         <div class="form-floating retro-form">
-            <select asp-for="CurrentIncident.TechnicianModelId" class="form-select" id="floatingSelect">
+            <select asp-for="CurrentIncident.TechnicianModelId" class="form-select" asp-items="@(new SelectList(ViewBag.Technicians, "TechnicianModelId", "Name"))">
                 <option hidden selected value="">--- Select a Technician ---</option>
                 <option selected value="-1">Not Assigned</option>
-                @foreach (TechnicianModel technician in ViewBag.Technicians)
-                {
-                    <option value="@technician.TechnicianModelId">@technician.Name</option>
-                }
             </select>
             <label asp-for="CurrentIncident.Description" for="floatingInput">Assigned To</label>
         </div>
