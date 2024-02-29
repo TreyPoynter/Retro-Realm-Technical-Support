@@ -1,0 +1,63 @@
+﻿@model IncidentModel
+@{
+}
+
+<h2 class="fs-1">Edit Incident</h2>
+
+<table class="table table-borderless">
+    <tbody>
+        <tr>
+            <td class="w-25 fs-3">Technician:</td>
+            <td class="fs-3">@Model.Technician.Name</td>
+        </tr>
+        <tr>
+            <td class="w-25 fs-3">Customer:</td>
+            <td class="fs-3">@Model.Customer.Fullname</td>
+        </tr>
+        <tr>
+            <td class="w-25 fs-3">Product:</td>
+            <td class="fs-3">@Model.Game.Title</td>
+        </tr>
+        <tr>
+            <td class="w-25 fs-3">Technician:</td>
+            <td class="fs-3">@Model.Technician.Name</td>
+        </tr>
+        <tr>
+            <td class="w-25 fs-3">Date Opened::</td>
+            <td class="fs-3">@Model.DateOpened</td>
+        </tr>
+        <form asp-action="Edit" method="post">
+        <tr>
+            <td class="w-25 fs-3">Description:</td>
+            <td class="">
+                <textarea asp-for="Description" class="w-75" style="resize:none" rows="4" >@Model.Description</textarea>
+                <span class="text-danger fw-bold" asp-validation-for="Description"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="w-25 fs-3">Date Closed:</td>
+            <td>
+                <input asp-for="DateClosed" type="date" id="datepicker" class="form-control w-75"
+                       max="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" min="@DateTime.Now.AddYears(-1).ToString("yyyy-MM-ddThh:mm")" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="btn-retro" type="submit">Save</button>
+                <a asp-controller="TechIncident" asp-action="List" asp-route-id="@Model.TechnicianModelId"
+                   class="btn-retro text-decoration-none ms-3">Cancel</a>
+            </td>
+            
+        </tr>
+        <input type="hidden" asp-for="IncidentModelId" />
+        <input type="hidden" asp-for="TechnicianModelId" />
+        <input type="hidden" asp-for="Technician" />
+        <input type="hidden" asp-for="GameModelId" />
+        <input type="hidden" asp-for="CustomerModelId" />
+        <input type="hidden" asp-for="Title" />
+        <input type="hidden" asp-for="DateOpened" />
+        </form>
+        
+    </tbody>
+
+</table>

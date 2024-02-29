@@ -27,7 +27,7 @@ namespace RetroRealm.Models
         public string? PostalCode { get; set; }
 
         [EmailAddress(ErrorMessage = "Not a valid email address")]
-        public string? Email { get; set; }
+        public string? Email { get; set; } = String.Empty;
 
         [Phone(ErrorMessage = "Not a valid phone number")]
         public string? Phone { get; set; }

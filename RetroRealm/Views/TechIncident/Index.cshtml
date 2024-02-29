@@ -3,8 +3,8 @@
 }
 
 <h2 class="fs-1">Technician</h2>
-<form asp-action="SearchIncidents">
-    <select class="form-select" id="floatingSelect">
+<form asp-action="GetTechnician" method="post">
+    <select class="form-select" id="technicians" name="id">
         <option hidden selected value="">--- Select a Technician ---</option>
         @foreach (TechnicianModel technician in Model)
         {

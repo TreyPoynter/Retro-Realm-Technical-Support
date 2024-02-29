@@ -1,5 +1,40 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<IncidentModel>
 @{
+    string dateFormat = "MM/dd/yyyy";
 }
+
+<h2 class="fs-1">Technician: @ViewBag.TechnicianName</h2>
+<h2 class="fs-1">Assigned/Open Incidents</h2>
+
+<table class="table retro-table">
+    <thead>
+        <tr class="">
+            <th scope="col">Title</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Game</th>
+            <th scope="col">Date Opened</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (IncidentModel incident in Model)
+        {
+            <tr class="">
+                <td scope="row">@incident.Title</td>
+                <td>@incident.Customer.Firstname @incident.Customer.Lastname</td>
+                <td>@incident.Game.Title</td>
+                <td>@incident.DateOpened.Value.ToString(dateFormat)</td>
+                <td class="w-25">
+                    <div class="d-flex justify-content-around">
+                        <a asp-controller="TechIncident" asp-action="Edit"
+                           asp-route-id="@incident.IncidentModelId" class="btn-retro text-decoration-none">Edit</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="SwitchTechnician" asp-controller="TechIncident">
+    <button class="btn-retro mt-3" type="submit">Switch Technician</button>
+</form>
