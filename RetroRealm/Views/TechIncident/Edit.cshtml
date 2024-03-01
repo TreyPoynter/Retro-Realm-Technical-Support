@@ -30,8 +30,11 @@
         <tr>
             <td class="w-25 fs-3">Description:</td>
             <td class="">
-                <textarea asp-for="Description" class="w-75" style="resize:none" rows="4" >@Model.Description</textarea>
-                <span class="text-danger fw-bold" asp-validation-for="Description"></span>
+                <div class="d-flex flex-column">
+                    <textarea asp-for="Description" class="w-75" style="resize:none" rows="4">@Model.Description</textarea>
+                    <span class="text-danger fw-bold" asp-validation-for="Description"></span>
+                </div>
+                
             </td>
         </tr>
         <tr>
@@ -47,11 +50,9 @@
                 <a asp-controller="TechIncident" asp-action="List" asp-route-id="@Model.TechnicianModelId"
                    class="btn-retro text-decoration-none ms-3">Cancel</a>
             </td>
-            
         </tr>
         <input type="hidden" asp-for="IncidentModelId" />
         <input type="hidden" asp-for="TechnicianModelId" />
-        <input type="hidden" asp-for="Technician" />
         <input type="hidden" asp-for="GameModelId" />
         <input type="hidden" asp-for="CustomerModelId" />
         <input type="hidden" asp-for="Title" />
