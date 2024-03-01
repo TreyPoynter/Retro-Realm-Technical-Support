@@ -67,12 +67,16 @@ namespace RetroRealm.Controllers
             {
                 Context.Incidents.Update(updatedIncident);
                 Context.SaveChanges();
-                return RedirectToAction("List", new { id = updatedIncident.IncidentModelId });
+                return RedirectToAction("List", new { id = updatedIncident.TechnicianModelId });
             }
             if (updatedIncident.DateClosed > DateTime.Now)
             {
                 ModelState.AddModelError("DateClosed", "Closed date cannot be in the future.");
             }
+
+            updatedIncident.Customer = Context.Customers.Find(updatedIncident.CustomerModelId);
+            updatedIncident.Game = Context.Games.Find(updatedIncident.GameModelId);
+            updatedIncident.Technician = Context.Technicians.Find(updatedIncident.TechnicianModelId);
 
             return View(updatedIncident);
         }
