@@ -11,10 +11,20 @@ namespace RetroRealm.Controllers
         public GameModelContext Context { get; set; }
         public IncidentController(GameModelContext ctx) => Context = ctx;
 
-        [HttpGet("incidents")]
-        public IActionResult List()
+        [HttpGet("incidents/{id?}")]
+        public IActionResult List(string id = "all")
         {
-            List <IncidentModel> incidents = Context.Incidents.Include(c => c.Customer).Include(g => g.Game).ToList();
+            List <IncidentModel> incidents = Context.Incidents.Include(i => i.Technician)
+                .Include(c => c.Customer).Include(g => g.Game).ToList();
+
+            if(id == "open")
+            {
+                incidents = incidents.Where(i => i.DateClosed == null).ToList();
+            }
+            if(id == "unassigned")
+            {
+                incidents = incidents.Where(i => i.TechnicianModelId == -1).ToList();
+            }
             IncidentVM incidentVM = new()
             {
                 Incidents = incidents,
@@ -43,10 +53,9 @@ namespace RetroRealm.Controllers
         [HttpPost]
         public IActionResult Edit(IncidentVM incidentVM)
         {
-            GetViewBagOptions();
             if (ModelState.IsValid)
             {
-                if (incidentVM.CurrentIncident.IncidentModelId == 0)
+                if (incidentVM.CurrentIncident.TechnicianModelId == -1)
                     Context.Incidents.Add(incidentVM.CurrentIncident);
                 else
                     Context.Incidents.Update(incidentVM.CurrentIncident);
@@ -57,8 +66,9 @@ namespace RetroRealm.Controllers
             {
                 ModelState.AddModelError("DateClosed", "Closed date cannot be in the future.");
             }
+            GetViewBagOptions();
             incidentVM.Action = (incidentVM.CurrentIncident.IncidentModelId == 0) ? "Add" : "Edit";
-            return View(incidentVM.CurrentIncident);
+            return View(incidentVM);
         }
 
         [HttpGet]
@@ -73,6 +83,12 @@ namespace RetroRealm.Controllers
             Context.Incidents.Remove(incident);
             Context.SaveChanges();
             return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public IActionResult Filter(string filter)
+        {
+            return RedirectToAction("List", new { ID = filter });
         }
 
         void GetViewBagOptions()

@@ -75,6 +75,28 @@ h2, h3, h1, .retro {
     background-color: #D8D8D8;
 }
 
+#filters > button {
+    display: inline-block;
+    padding: 6px 25px;
+    border-radius: 8px;
+    background: #df6108;
+    color: #fff;
+    text-decoration: none;
+    font-family: monospace;
+    text-transform: uppercase;
+    border: 0px;
+    border-radius: 8px;
+    box-shadow: 0 0 0 3px #2f2e41, 0 0px 0 #2f2e41;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+    #filters > button:hover,
+    #filters > button:focus {
+        color: #fff;
+        background: #f2771c;
+        cursor: pointer;
+    }
+
 /* RETRO BUTTON */
 .btn-retro {
     /* typography */
@@ -167,3 +189,14 @@ h2, h3, h1, .retro {
         max-width: 50rem;
         line-height: 1.5;
     }
+
+@media screen and (max-width: 769px) {
+    #filters {
+        flex-direction: column;
+
+    }
+        #filters > button {
+            width: 100%;
+            margin: 5px 0px !important;
+        }
+}

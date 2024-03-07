@@ -2,7 +2,7 @@
 {
     public class IncidentVM
     {
-        public string? Filter { get; set; } 
+        public string? Filter { get; set; }
         public string? Action { get; set; }
         public List<CustomerModel>? Customers { get; set; }
         public List<GameModel>? Games { get; set; }

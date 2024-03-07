@@ -5,6 +5,7 @@ namespace RetroRealm.Models
 {
     public class IncidentModel
     {
+        [ValidateNever]
         public int IncidentModelId { get; set; }
         [Required (ErrorMessage = "A title is required!")]
         public string? Title { get; set; }

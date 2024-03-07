@@ -6,6 +6,14 @@
 
 <h2 class="fs-1">Incident Manager</h2>
 
+<form asp-action="Filter" method="post" class="mb-2">
+    <div class="d-flex" id="filters">
+        <button type="submit" name="filter" value="all">All Incidents</button>
+        <button type="submit" class="ms-3" name="filter" value="unassigned">Unassigned Incidents</button>
+        <button type="submit" class="ms-3" name="filter" value="open">Open Incidents</button>
+    </div>
+</form>
+
 <table class="table retro-table">
     <thead>
         <tr class="">
