@@ -1,4 +1,5 @@
-﻿using RetroRealm.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RetroRealm.Models;
 
 namespace RetroRealm.Data.Services
 {
@@ -11,9 +12,27 @@ namespace RetroRealm.Data.Services
             _context = context;
         }
 
+        public async Task AddCustomer(CustomerModel customer)
+        {
+            _context.Customers.Add(customer);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteCustomer(CustomerModel customer)
+        {
+            _context.Customers.Remove(customer);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task EditCustomer(CustomerModel customer)
+        {
+            _context.Customers.Update(customer);
+            await _context.SaveChangesAsync();
+        }
+
         public IQueryable<CustomerModel> GetAll()
         {
-            IQueryable<CustomerModel> customers = _context.Customers;
+            IQueryable<CustomerModel> customers = _context.Customers.Include(c => c.CountryModel);
             return customers;
         }
 
@@ -23,9 +42,11 @@ namespace RetroRealm.Data.Services
             return customer;
         }
 
-        public CustomerModel GetCustomerById(int id)
+        public CustomerModel? GetCustomerById(int id)
         {
-            throw new NotImplementedException();
+            CustomerModel? customer = _context.Customers.Find(id);
+
+            return customer;
         }
     }
 }

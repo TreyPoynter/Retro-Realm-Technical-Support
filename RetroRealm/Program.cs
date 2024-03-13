@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
+using RetroRealm.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddRouting(options =>
     options.LowercaseUrls = true;
     options.AppendTrailingSlash = true;
 });
+builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddSession(opts =>

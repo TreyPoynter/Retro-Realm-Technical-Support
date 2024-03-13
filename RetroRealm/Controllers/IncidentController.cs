@@ -19,13 +19,10 @@ namespace RetroRealm.Controllers
                 .Include(c => c.Customer).Include(g => g.Game).ToList();
 
             if(id == "open")
-            {
                 incidents = incidents.Where(i => i.DateClosed == null).ToList();
-            }
             if(id == "unassigned")
-            {
                 incidents = incidents.Where(i => i.TechnicianModelId == -1).ToList();
-            }
+
             IncidentVM incidentVM = new()
             {
                 Incidents = incidents,

@@ -1,19 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
+using RetroRealm.Data.Services;
 using RetroRealm.Models;
 
 namespace RetroRealm.Controllers
 {
     public class CustomerController : Controller
     {
+        private readonly ICustomerService _customerService;
         public ApplicationDbContext Context { get; set; }
-        public CustomerController(ApplicationDbContext ctx) => Context = ctx;
+        public CustomerController(ApplicationDbContext ctx, ICustomerService customerService)
+        {
+            Context = ctx;
+            _customerService = customerService;
+        }
 
         [HttpGet("customers")]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            List<CustomerModel> customers = Context.Customers.Include(c => c.CountryModel).OrderBy(c => c.Firstname).ToList();
+            List<CustomerModel> customers = await _customerService.GetAll().OrderBy(c => c.Firstname).ToListAsync();
             return View(customers);
         }
 
@@ -29,21 +35,20 @@ namespace RetroRealm.Controllers
         public IActionResult Edit(int id)
         {
             ViewBag.Countries = Context.Countries.OrderBy(c => c.Country).ToList();
-            CustomerModel? customer = Context.Customers.Find(id);
+            CustomerModel? customer = _customerService.GetCustomerById(id);
             ViewBag.Action = "Edit";
             return View(customer);
         }
         [HttpPost]
-        public IActionResult Edit(CustomerModel customer)
+        public async Task<IActionResult> Edit(CustomerModel customer)
         {
             ViewBag.Countries = Context.Countries.OrderBy(c => c.Country).ToList();
             if (ModelState.IsValid)
             {
                 if (customer.CustomerModelId == 0)
-                    Context.Customers.Add(customer);
+                    await _customerService.AddCustomer(customer);
                 else
-                    Context.Customers.Update(customer);
-                Context.SaveChanges();
+                    await _customerService.EditCustomer(customer);
                 return RedirectToAction("List");
             }
             ViewBag.Action = (customer.CustomerModelId == 0) ? "Add" : "Edit";
@@ -53,14 +58,13 @@ namespace RetroRealm.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            CustomerModel? customer = Context.Customers.Find(id);
+            CustomerModel? customer = _customerService.GetCustomerById(id);
             return View(customer);
         }
         [HttpPost]
-        public IActionResult Delete(CustomerModel customer)
+        public async Task<IActionResult> Delete(CustomerModel customer)
         {
-            Context.Customers.Remove(customer);
-            Context.SaveChanges();
+            await _customerService.DeleteCustomer(customer);
             return RedirectToAction("List");
         }
     }
