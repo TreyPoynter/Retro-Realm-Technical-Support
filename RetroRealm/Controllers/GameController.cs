@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RetroRealm.Data;
 using RetroRealm.Models;
 
 namespace RetroRealm.Controllers
 {
     public class GameController : Controller
     {
-        public GameModelContext Context { get; set; }
-        public GameController(GameModelContext ctx) => Context = ctx;
+        public ApplicationDbContext Context { get; set; }
+        public GameController(ApplicationDbContext ctx) => Context = ctx;
 
         public ViewResult Index()
         {

@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RetroRealm.Models;
+using RetroRealm.Data;
+
 
 #nullable disable
 
 namespace RetroRealm.Migrations
 {
-    [DbContext(typeof(GameModelContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class GameModelContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

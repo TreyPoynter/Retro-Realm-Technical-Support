@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RetroRealm.Models;
+using RetroRealm.Data;
+
 
 #nullable disable
 
 namespace RetroRealm.Migrations
 {
-    [DbContext(typeof(GameModelContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240129204152_CustomersTwo")]
     partial class CustomersTwo
     {

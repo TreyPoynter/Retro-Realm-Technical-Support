@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RetroRealm.Data;
 using RetroRealm.Models;
 
 namespace RetroRealm.Controllers
 {
     public class ValidationController : Controller
     {
-        private readonly GameModelContext _gameContext;
+        private readonly ApplicationDbContext _gameContext;
 
-        public ValidationController(GameModelContext gameContext)
+        public ValidationController(ApplicationDbContext gameContext)
         {
             _gameContext = gameContext;
         }

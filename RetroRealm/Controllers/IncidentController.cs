@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RetroRealm.Data;
 using RetroRealm.Migrations;
 using RetroRealm.Models;
 using System.Linq;

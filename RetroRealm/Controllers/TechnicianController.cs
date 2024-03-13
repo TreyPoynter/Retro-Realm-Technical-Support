@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RetroRealm.Data;
 using RetroRealm.Models;
 
 namespace RetroRealm.Controllers
 {
     public class TechnicianController : Controller
     {
-        public GameModelContext Context { get; set; }
-        public TechnicianController(GameModelContext ctx) => Context = ctx;
+        public ApplicationDbContext Context { get; set; }
+        public TechnicianController(ApplicationDbContext ctx) => Context = ctx;
 
         [HttpGet("technicians")]
         public IActionResult List()

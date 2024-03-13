@@ -30,4 +30,8 @@
     <None Include="Views\_NavLayout.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Services\" />
+  </ItemGroup>
+
 </Project>

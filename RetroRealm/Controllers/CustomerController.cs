@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RetroRealm.Data;
 using RetroRealm.Models;
 
 namespace RetroRealm.Controllers
 {
     public class CustomerController : Controller
     {
-        public GameModelContext Context { get; set; }
-        public CustomerController(GameModelContext ctx) => Context = ctx;
+        public ApplicationDbContext Context { get; set; }
+        public CustomerController(ApplicationDbContext ctx) => Context = ctx;
 
         [HttpGet("customers")]
         public IActionResult List()
