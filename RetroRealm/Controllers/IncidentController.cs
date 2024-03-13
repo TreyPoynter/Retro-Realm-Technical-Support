@@ -55,10 +55,13 @@ namespace RetroRealm.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (incidentVM.CurrentIncident.TechnicianModelId == -1)
+                if (incidentVM.CurrentIncident.IncidentModelId == 0)
                     Context.Incidents.Add(incidentVM.CurrentIncident);
-                else
+                else 
+                { 
                     Context.Incidents.Update(incidentVM.CurrentIncident);
+                }
+                    
                 Context.SaveChanges();
                 return RedirectToAction("List");
             }
