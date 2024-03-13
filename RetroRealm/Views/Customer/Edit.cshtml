@@ -63,7 +63,7 @@
             </select>
             <label asp-for="CountryModelId" for="floatingSelect">Select a Country</label>
         </div>
-        <span class="text-danger fw-bold" asp-validation-for="PostalCode"></span>
+        <span class="text-danger fw-bold" asp-validation-for="CountryModelId"></span>
     </div>
     <div clas
     <div class="mb-3">
@@ -85,3 +85,9 @@
     <a asp-controller="Customer" asp-action="List"
        class="btn-retro text-decoration-none ms-3">Cancel</a>
 </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

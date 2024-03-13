@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PigGame.Models;
 using RetroRealm.Migrations;
 using RetroRealm.Models;
 
