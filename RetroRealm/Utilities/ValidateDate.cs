@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RetroRealm.Models
+namespace RetroRealm.Utilities
 {
     public class ValidateDate : ValidationAttribute
     {
@@ -8,7 +8,7 @@ namespace RetroRealm.Models
                          (object obj, ValidationContext validationContext)
         {
             DateTime date = Convert.ToDateTime(obj);
-            return (date <= DateTime.UtcNow && date >= DateTime.UtcNow.AddYears(-1))
+            return date <= DateTime.UtcNow && date >= DateTime.UtcNow.AddYears(-1)
                 ? ValidationResult.Success
                 : new ValidationResult("Invalid date range");
         }

@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-namespace PigGame.Models
+namespace RetroRealm.Utilities
 {
     public static class SessionHelper
     {
@@ -11,8 +11,9 @@ namespace PigGame.Models
         public static T? GetObject<T>(this ISession session, string key)
         {
             string? json = session.GetString("key");
-            if(String.IsNullOrEmpty(json)) {
-                return default(T);
+            if (string.IsNullOrEmpty(json))
+            {
+                return default;
             }
             return JsonSerializer.Deserialize<T>(json);
         }
