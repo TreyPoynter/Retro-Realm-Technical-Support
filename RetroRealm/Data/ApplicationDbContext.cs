@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RetroRealm.Models;
 
-namespace RetroRealm.Models
+namespace RetroRealm.Data
 {
-    public class GameModelContext :DbContext
+    public class ApplicationDbContext : DbContext
     {
         public DbSet<GameModel> Games { get; set; }
         public DbSet<TechnicianModel> Technicians { get; set; }
@@ -10,7 +11,7 @@ namespace RetroRealm.Models
         public DbSet<CountryModel> Countries { get; set; }
         public DbSet<IncidentModel> Incidents { get; set; }
 
-        public GameModelContext(DbContextOptions<GameModelContext> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
