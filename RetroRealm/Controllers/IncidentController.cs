@@ -9,8 +9,8 @@ namespace RetroRealm.Controllers
 {
     public class IncidentController : Controller
     {
-        public GameModelContext Context { get; set; }
-        public IncidentController(GameModelContext ctx) => Context = ctx;
+        public ApplicationDbContext Context { get; set; }
+        public IncidentController(ApplicationDbContext ctx) => Context = ctx;
 
         [HttpGet("incidents/{id?}")]
         public IActionResult List(string id = "all")

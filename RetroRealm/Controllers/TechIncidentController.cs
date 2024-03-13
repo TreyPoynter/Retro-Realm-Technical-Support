@@ -9,8 +9,8 @@ namespace RetroRealm.Controllers
     public class TechIncidentController : Controller
     {
         private const string SESSION_KEY = "TechnicianId";
-        public GameModelContext Context { get; set; }
-        public TechIncidentController(GameModelContext ctx) => Context = ctx;
+        public ApplicationDbContext Context { get; set; }
+        public TechIncidentController(ApplicationDbContext ctx) => Context = ctx;
         public IActionResult Index()
         {
             if(GetSessionTechnicianId() != null)
