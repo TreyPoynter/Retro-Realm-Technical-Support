@@ -55,10 +55,8 @@ namespace RetroRealm.Controllers
             {
                 if (incidentVM.CurrentIncident.IncidentModelId == 0)
                     Context.Incidents.Add(incidentVM.CurrentIncident);
-                else 
-                { 
+                else
                     Context.Incidents.Update(incidentVM.CurrentIncident);
-                }
                     
                 Context.SaveChanges();
                 return RedirectToAction("List");
@@ -89,6 +87,8 @@ namespace RetroRealm.Controllers
         [HttpPost]
         public IActionResult Filter(string filter)
         {
+            if (filter == string.Empty)
+                return RedirectToAction("List");
             return RedirectToAction("List", new { ID = filter });
         }
 
