@@ -28,9 +28,9 @@ namespace RetroRealm.Controllers
             return View(game);
         }
         [HttpPost]
-        public ActionResult Delete(GameModel game)
+        public async Task<ActionResult> Delete(GameModel game)
         {
-            _gameService.DeleteGame(game);
+            await _gameService.DeleteGame(game);
             return RedirectToAction("ManageGames");
         }
 

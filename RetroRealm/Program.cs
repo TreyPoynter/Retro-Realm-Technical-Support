@@ -16,6 +16,7 @@ builder.Services.AddRouting(options =>
 });
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IGameService, GameService>();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddSession(opts =>
