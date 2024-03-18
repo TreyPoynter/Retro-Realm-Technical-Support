@@ -1,37 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
+using RetroRealm.Data.Services;
 using RetroRealm.Models;
 
 namespace RetroRealm.Controllers
 {
     public class GameController : Controller
     {
-        public ApplicationDbContext Context { get; set; }
-        public GameController(ApplicationDbContext ctx) => Context = ctx;
-
-        public ViewResult Index()
+        private readonly IGameService _gameService;
+        public GameController(IGameService gameService)
         {
-            return View();
+            _gameService = gameService;
         }
 
         [HttpGet("games")]
-        public ViewResult ManageGames()
+        public async Task<ViewResult> ManageGames()
         {
-            List<GameModel> games = Context.Games.OrderBy(g => g.ReleaseDate).ToList();
+            List<GameModel> games = await _gameService.GetAll().ToListAsync();
             return View(games);
         }
         
         [HttpGet]
         public ViewResult Delete(int id) 
         {
-            GameModel? game = Context.Games.Find(id);
+            GameModel? game = _gameService.GetGameById(id);
             return View(game);
         }
         [HttpPost]
         public ActionResult Delete(GameModel game)
         {
-            Context.Games.Remove(game);
-            Context.SaveChanges();
+            _gameService.DeleteGame(game);
             return RedirectToAction("ManageGames");
         }
 
@@ -45,23 +44,22 @@ namespace RetroRealm.Controllers
         public ViewResult Edit(int id)
         {
             ViewBag.Action = "Edit";
-            GameModel? game = Context.Games.Find(id);
+            GameModel? game = _gameService.GetGameById(id);
             return View(game);
         }
         [HttpPost]
-        public ActionResult Edit(GameModel game)
+        public async Task<ActionResult> Edit(GameModel game)
         {
             if (ModelState.IsValid)
             {
                 if (game.GameModelId == 0)
                 {
-                    Context.Games.Add(game);
+                    await _gameService.AddGame(game);
                     TempData["ToastTitle"] = "Game Added";
                     TempData["ToastMessage"] = $"{game.Title} was successfully added";
                 }
                 else
-                    Context.Games.Update(game);
-                Context.SaveChanges();
+                    await _gameService.UpdateGame(game);
                 return RedirectToAction("ManageGames");
             }
             ViewBag.Action = (game.GameModelId == 0) ? "Add" : "Edit";

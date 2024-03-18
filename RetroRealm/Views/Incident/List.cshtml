@@ -1,7 +1,7 @@
 ﻿@model IncidentVM
 @{
     ViewBag.Title = "Incident Manager";
-    string dateFormat = "MM/dd/yyyy";
+    const string DATE_FORMAT = "MM/dd/yyyy";
 }
 
 <h2 class="fs-1">Incident Manager</h2>
@@ -31,7 +31,7 @@
                 <td scope="row">@incident.Title</td>
                 <td>@incident.Customer.Firstname @incident.Customer.Lastname</td>
                 <td>@incident.Game.Title</td>
-                <td>@incident.DateOpened.Value.ToString(dateFormat)</td>
+                <td>@incident.DateOpened.Value.ToString(DATE_FORMAT)</td>
                 <td class="w-25">
                     <div class="d-flex justify-content-around">
                         <a asp-controller="Incident" asp-action="Edit"
