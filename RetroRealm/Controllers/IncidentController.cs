@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
+using RetroRealm.Data.Services;
 using RetroRealm.Migrations;
 using RetroRealm.Models;
 using System.Linq;
@@ -9,15 +10,18 @@ namespace RetroRealm.Controllers
 {
     public class IncidentController : Controller
     {
+        private IIncidentService _incidentService;
         public ApplicationDbContext Context { get; set; }
-        public IncidentController(ApplicationDbContext ctx) => Context = ctx;
+        public IncidentController(ApplicationDbContext ctx, IIncidentService incidentService)
+        {
+            Context = ctx;
+            _incidentService = incidentService;
+        }
 
         [HttpGet("incidents/{id?}")]
-        public IActionResult List(string id = "all")
+        public async Task<IActionResult> List(string id = "all")
         {
-            List <IncidentModel> incidents = Context.Incidents.Include(i => i.Technician)
-                .Include(c => c.Customer).Include(g => g.Game).ToList();
-
+            List<IncidentModel> incidents = await _incidentService.GetAll().ToListAsync();
             if(id == "open")
                 incidents = incidents.Where(i => i.DateClosed == null).ToList();
             if(id == "unassigned")
@@ -49,38 +53,40 @@ namespace RetroRealm.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(IncidentVM incidentVM)
+        public async Task<IActionResult> Edit(IncidentVM incidentVM)
         {
+            IncidentModel? incident = incidentVM.CurrentIncident;
+
             if (ModelState.IsValid)
             {
-                if (incidentVM.CurrentIncident.IncidentModelId == 0)
-                    Context.Incidents.Add(incidentVM.CurrentIncident);
+                if (incident.IncidentModelId == 0)
+                    await _incidentService.AddIncident(incident);
                 else
-                    Context.Incidents.Update(incidentVM.CurrentIncident);
+                    await _incidentService.UpdateIncident(incident);
                     
                 Context.SaveChanges();
                 return RedirectToAction("List");
             }
-            if (incidentVM.CurrentIncident.DateClosed > DateTime.Now)
+
+            if (incident.DateClosed > DateTime.Now)
             {
                 ModelState.AddModelError("DateClosed", "Closed date cannot be in the future.");
             }
             GetViewBagOptions();
-            incidentVM.Action = (incidentVM.CurrentIncident.IncidentModelId == 0) ? "Add" : "Edit";
+            incidentVM.Action = (incident.IncidentModelId == 0) ? "Add" : "Edit";
             return View(incidentVM);
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            IncidentModel? incident = Context.Incidents.Find(id);
+            IncidentModel? incident = _incidentService.GetById(id);
             return View(incident);
         }
         [HttpPost]
-        public IActionResult Delete(IncidentModel incident)
+        public async Task<IActionResult> Delete(IncidentModel incident)
         {
-            Context.Incidents.Remove(incident);
-            Context.SaveChanges();
+            await _incidentService.DeleteIncident(incident);
             return RedirectToAction("List");
         }
 
