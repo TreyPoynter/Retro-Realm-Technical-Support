@@ -1,19 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
+using RetroRealm.Data.Services;
 using RetroRealm.Models;
 
 namespace RetroRealm.Controllers
 {
     public class TechnicianController : Controller
     {
-        public ApplicationDbContext Context { get; set; }
-        public TechnicianController(ApplicationDbContext ctx) => Context = ctx;
+        private readonly ITechnicianService _technicianService;
+        public TechnicianController(ITechnicianService technicianService)
+        {
+            _technicianService = technicianService;
+        }
 
         [HttpGet("technicians")]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            List<TechnicianModel> technicians = Context.Technicians.Where(t => t.TechnicianModelId != -1)
-            .OrderBy(g => g.Name).ToList();
+            List<TechnicianModel> technicians = await _technicianService.GetAll().ToListAsync();
             return View(technicians);
         }
         [HttpGet]
@@ -27,20 +31,19 @@ namespace RetroRealm.Controllers
         public IActionResult Edit(int id)
         {
             ViewBag.Action = "Edit";
-            TechnicianModel? technician = Context.Technicians.Find(id);
+            TechnicianModel? technician = _technicianService.GetById(id);
             return View("Edit", technician);
         }
 
         [HttpPost]
-        public IActionResult Edit(TechnicianModel technician)
+        public async Task<IActionResult> Edit(TechnicianModel technician)
         {
             if (ModelState.IsValid)
             {
                 if (technician.TechnicianModelId == 0)
-                    Context.Technicians.Add(technician);
+                    await _technicianService.Add(technician);
                 else
-                    Context.Technicians.Update(technician);
-                Context.SaveChanges();
+                    await _technicianService.Update(technician);
                 return RedirectToAction("List");
             }
             ViewBag.Action = (technician.TechnicianModelId == 0) ? "Add" : "Edit";
@@ -50,14 +53,13 @@ namespace RetroRealm.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            TechnicianModel? technician = Context.Technicians.Find(id);
+            TechnicianModel? technician = _technicianService.GetById(id);
             return View(technician);
         }
         [HttpPost]
-        public IActionResult Delete(TechnicianModel technician)
+        public async Task<IActionResult> Delete(TechnicianModel technician)
         {
-            Context.Technicians.Remove(technician);
-            Context.SaveChanges();
+            await _technicianService.Remove(technician);
             return RedirectToAction("List");
         }
     }
