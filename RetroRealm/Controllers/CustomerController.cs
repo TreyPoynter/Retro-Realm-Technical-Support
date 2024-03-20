@@ -9,10 +9,10 @@ namespace RetroRealm.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;
-        public ApplicationDbContext Context { get; set; }
-        public CustomerController(ApplicationDbContext ctx, ICustomerService customerService)
+        private readonly ICountriesService _countryService;
+        public CustomerController(ICustomerService customerService, ICountriesService countryService)
         {
-            Context = ctx;
+            _countryService = countryService;
             _customerService = customerService;
         }
 
@@ -24,17 +24,17 @@ namespace RetroRealm.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            ViewBag.Countries = Context.Countries.OrderBy(c => c.Country).ToList();
+            ViewBag.Countries = await _countryService.GetCountries().ToListAsync();
             ViewBag.Action = "Add";
             return View("Edit", new CustomerModel());
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            ViewBag.Countries = Context.Countries.OrderBy(c => c.Country).ToList();
+            ViewBag.Countries = await _countryService.GetCountries().ToListAsync();
             CustomerModel? customer = _customerService.GetCustomerById(id);
             ViewBag.Action = "Edit";
             return View(customer);
@@ -42,7 +42,6 @@ namespace RetroRealm.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(CustomerModel customer)
         {
-            ViewBag.Countries = Context.Countries.OrderBy(c => c.Country).ToList();
             if (ModelState.IsValid)
             {
                 if (customer.CustomerModelId == 0)
@@ -51,6 +50,7 @@ namespace RetroRealm.Controllers
                     await _customerService.EditCustomer(customer);
                 return RedirectToAction("List");
             }
+            ViewBag.Countries = await _countryService.GetCountries().ToListAsync();
             ViewBag.Action = (customer.CustomerModelId == 0) ? "Add" : "Edit";
             return View(customer);
         }
