@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
+using RetroRealm.Data.Services;
 using RetroRealm.Migrations;
 using RetroRealm.Models;
 
@@ -9,15 +10,25 @@ namespace RetroRealm.Controllers
     public class TechIncidentController : Controller
     {
         private const string SESSION_KEY = "TechnicianId";
-        private ApplicationDbContext Context { get; set; }
-        public TechIncidentController(ApplicationDbContext ctx) => Context = ctx;
-        public IActionResult Index()
+        private readonly ICustomerService _customerService;
+        private readonly ITechnicianService _technicianService;
+        private readonly IIncidentService _incidentService;
+        private readonly IGameService _gameService;
+        public TechIncidentController(ICustomerService customerService, 
+            ITechnicianService technicianService, IIncidentService incidentService,
+            IGameService gameService)
+        {
+            _customerService = customerService;
+            _technicianService = technicianService;
+            _incidentService = incidentService;
+            _gameService = gameService;
+        }
+        public async Task<IActionResult> Index()
         {
             if(GetSessionTechnicianId() != null)
                 return RedirectToAction("List", new { id = GetSessionTechnicianId() });
 
-            List<TechnicianModel> technicians = Context.Technicians.Where(t => t.TechnicianModelId != -1)
-            .OrderBy(g => g.Name).ToList();
+            List<TechnicianModel> technicians = await _technicianService.GetAll().ToListAsync();
             return View(technicians);
         }
 
@@ -25,7 +36,7 @@ namespace RetroRealm.Controllers
         public IActionResult GetTechnician(int id)
         {
             SaveToSession(id);
-            return RedirectToAction("List", new { id = id });
+            return RedirectToAction("List", new { id });
         }
         [HttpPost]
         public IActionResult SwitchTechnician()
@@ -40,9 +51,8 @@ namespace RetroRealm.Controllers
         {
             if (id != GetSessionTechnicianId())
                 SaveToSession(id);
-            TechnicianModel? technician = Context.Technicians.Find(id);
-            List<IncidentModel> incidents = Context.Incidents.Include(c => c.Customer).Include(c => c.Game)
-                .Where(i => i.TechnicianModelId == id).ToList();
+            TechnicianModel? technician = _technicianService.GetById(id);
+            List<IncidentModel> incidents = _incidentService.GetAll().ToList();
 
             ViewBag.TechnicianName = technician.Name;
 
@@ -53,20 +63,15 @@ namespace RetroRealm.Controllers
         [Route("techincident/edit/{id}")]
         public IActionResult Edit(int id)
         {
-            IncidentModel? incident = Context.Incidents
-                .Include(i => i.Technician)
-                .Include(i => i.Game)
-                .Include(i => i.Customer)
-                .FirstOrDefault(i => i.IncidentModelId == id);
+            IncidentModel? incident = _incidentService.GetById(id);
             return View("Edit", incident);
         }
         [HttpPost]
-        public IActionResult Edit(IncidentModel updatedIncident)
+        public async Task<IActionResult> Edit(IncidentModel updatedIncident)
         {
             if (ModelState.IsValid)
             {
-                Context.Incidents.Update(updatedIncident);
-                Context.SaveChanges();
+                await _incidentService.UpdateIncident(updatedIncident);
                 return RedirectToAction("List", new { id = updatedIncident.TechnicianModelId });
             }
             if (updatedIncident.DateClosed > DateTime.Now)
@@ -74,9 +79,9 @@ namespace RetroRealm.Controllers
                 ModelState.AddModelError("DateClosed", "Closed date cannot be in the future.");
             }
 
-            updatedIncident.Customer = Context.Customers.Find(updatedIncident.CustomerModelId);
-            updatedIncident.Game = Context.Games.Find(updatedIncident.GameModelId);
-            updatedIncident.Technician = Context.Technicians.Find(updatedIncident.TechnicianModelId);
+            updatedIncident.Customer = _customerService.GetCustomerById(updatedIncident.CustomerModelId);
+            updatedIncident.Game = _gameService.GetGameById(updatedIncident.GameModelId);
+            updatedIncident.Technician = _technicianService.GetById(updatedIncident.TechnicianModelId);
 
             return View(updatedIncident);
         }
