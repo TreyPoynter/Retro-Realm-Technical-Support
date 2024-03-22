@@ -29,7 +29,7 @@ namespace RetroRealm.Data.Services
             return games;
         }
 
-        public GameModel? GetGameById(int id)
+        public GameModel? GetGameById(int? id)
         {
             GameModel? game = _context.Games.FirstOrDefault(g => g.GameModelId == id);
             return game;

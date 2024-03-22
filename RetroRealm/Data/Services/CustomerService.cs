@@ -42,7 +42,7 @@ namespace RetroRealm.Data.Services
             return customer;
         }
 
-        public CustomerModel? GetCustomerById(int id)
+        public CustomerModel? GetCustomerById(int? id)
         {
             CustomerModel? customer = _context.Customers.Find(id);
 

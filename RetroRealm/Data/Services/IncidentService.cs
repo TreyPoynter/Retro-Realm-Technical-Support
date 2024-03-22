@@ -32,7 +32,7 @@ namespace RetroRealm.Data.Services
             return incidentModels;
         }
 
-        public IncidentModel? GetById(int id)
+        public IncidentModel? GetById(int? id)
         {
             IncidentModel? incident = _context.Incidents
                 .Include(i => i.Customer)

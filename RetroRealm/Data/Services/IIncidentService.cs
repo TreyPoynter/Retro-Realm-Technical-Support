@@ -6,7 +6,7 @@ namespace RetroRealm.Data.Services
     {
         IQueryable<IncidentModel> GetAll();
 
-        IncidentModel? GetById(int id);
+        IncidentModel? GetById(int? id);
 
         Task AddIncident(IncidentModel incident);
         Task UpdateIncident(IncidentModel incident);

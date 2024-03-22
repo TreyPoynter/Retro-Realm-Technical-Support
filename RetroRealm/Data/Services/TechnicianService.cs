@@ -21,7 +21,7 @@ namespace RetroRealm.Data.Services
             return technicians;
         }
 
-        public TechnicianModel? GetById(int id)
+        public TechnicianModel? GetById(int? id)
         {
             TechnicianModel? technician = _context.Technicians.FirstOrDefault(t => t.TechnicianModelId == id);
             return technician;

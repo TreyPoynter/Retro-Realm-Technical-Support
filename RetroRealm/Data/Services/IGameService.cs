@@ -8,7 +8,7 @@ namespace RetroRealm.Data.Services
         Task DeleteGame(GameModel game);
         Task UpdateGame(GameModel game);
         Task AddGame(GameModel game);
-        GameModel? GetGameById(int id);
+        GameModel? GetGameById(int? id);
 
     }
 }
