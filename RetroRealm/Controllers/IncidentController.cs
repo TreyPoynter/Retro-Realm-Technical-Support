@@ -10,21 +10,26 @@ namespace RetroRealm.Controllers
 {
     public class IncidentController : Controller
     {
-        private IIncidentService _incidentService;
-        public ApplicationDbContext Context { get; set; }
-        public IncidentController(ApplicationDbContext ctx, IIncidentService incidentService)
+        private readonly IIncidentService _incidentService;
+        private readonly ICustomerService _customerService;
+        private readonly IGameService _gameService;
+        private readonly ITechnicianService _technicianService;
+        public IncidentController(IIncidentService incidentService, ICustomerService customerService,
+            IGameService gameService, ITechnicianService technicianService)
         {
-            Context = ctx;
             _incidentService = incidentService;
+            _customerService = customerService;
+            _gameService = gameService;
+            _technicianService = technicianService;
         }
 
         [HttpGet("incidents/{id?}")]
-        public async Task<IActionResult> List(string id = "all")
+        public async Task<IActionResult> List(string id)
         {
             List<IncidentModel> incidents = await _incidentService.GetAll().ToListAsync();
             if(id == "open")
                 incidents = incidents.Where(i => i.DateClosed == null).ToList();
-            if(id == "unassigned")
+            else if(id == "unassigned")
                 incidents = incidents.Where(i => i.TechnicianModelId == -1).ToList();
 
             IncidentVM incidentVM = new()
@@ -47,7 +52,7 @@ namespace RetroRealm.Controllers
             IncidentVM? incident = new()
             {
                 Action = "Edit",
-                CurrentIncident = Context.Incidents.Find(id)
+                CurrentIncident = _incidentService.GetById(id)
             };
             return View("Edit", incident);
         }
@@ -64,7 +69,6 @@ namespace RetroRealm.Controllers
                 else
                     await _incidentService.UpdateIncident(incident);
                     
-                Context.SaveChanges();
                 return RedirectToAction("List");
             }
 
@@ -100,10 +104,9 @@ namespace RetroRealm.Controllers
 
         void GetViewBagOptions()
         {
-            ViewBag.Customers = Context.Customers.OrderBy(c => c.Firstname).ToList();
-            ViewBag.Games = Context.Games.OrderBy(g => g.Title).ToList();
-            ViewBag.Technicians = Context.Technicians.Where(t => t.TechnicianModelId != -1)
-                .OrderBy(t => t.TechnicianModelId).ToList();
+            ViewBag.Customers = _customerService.GetAll().ToList();
+            ViewBag.Games = _gameService.GetAll().ToList();
+            ViewBag.Technicians = _technicianService.GetAll().ToList();
         }
     }
 }
