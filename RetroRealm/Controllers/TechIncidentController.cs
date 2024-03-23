@@ -35,6 +35,12 @@ namespace RetroRealm.Controllers
         [HttpPost]
         public IActionResult GetTechnician(int id)
         {
+            if(id == 0)
+            {
+                TempData["Error"] = "You must select a technician";
+                return RedirectToAction("Index");
+            }
+
             SaveToSession(id);
             return RedirectToAction("List", new { id });
         }

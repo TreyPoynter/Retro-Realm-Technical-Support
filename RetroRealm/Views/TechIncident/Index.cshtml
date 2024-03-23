@@ -4,7 +4,7 @@
 }
 
 <h2 class="fs-1">Technician</h2>
-<form asp-action="GetTechnician" method="post">
+<form asp-action="SelectTechnician" method="post">
     <select class="form-select" id="technicians" name="id">
         <option hidden selected value="">--- Select a Technician ---</option>
         @foreach (TechnicianModel technician in Model)
@@ -12,6 +12,10 @@
             <option value="@technician.TechnicianModelId">@technician.Name</option>
         }
     </select>
+    @if(TempData["Error"] != null)
+    {
+        <p class="text-danger">@TempData["Error"]</p>
+    }
     <button class="btn-retro mt-3" type="submit">Select</button>
 </form>
 
