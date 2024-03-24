@@ -33,7 +33,7 @@ namespace RetroRealm.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetTechnician(int id)
+        public IActionResult SelectTechnician(int id)
         {
             if(id == 0)
             {
