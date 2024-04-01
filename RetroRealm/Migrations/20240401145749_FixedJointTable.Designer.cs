@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RetroRealm.Data;
 
@@ -11,9 +12,11 @@ using RetroRealm.Data;
 namespace RetroRealm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class GameModelContextModelSnapshot : ModelSnapshot
+    [Migration("20240401145749_FixedJointTable")]
+    partial class FixedJointTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

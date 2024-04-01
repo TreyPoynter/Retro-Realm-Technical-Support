@@ -25,7 +25,7 @@ namespace RetroRealm.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            if(GetSessionTechnicianId() != null)
+            if(GetSessionTechnicianId() != null)  // If the user already selected a technician
                 return RedirectToAction("List", new { id = GetSessionTechnicianId() });
 
             List<TechnicianModel> technicians = await _technicianService.GetAll().ToListAsync();
@@ -35,7 +35,7 @@ namespace RetroRealm.Controllers
         [HttpPost]
         public IActionResult SelectTechnician(int id)
         {
-            if(id == 0)
+            if(id == 0)  // user didn't select a technician (safe guard)
             {
                 TempData["Error"] = "You must select a technician";
                 return RedirectToAction("Index");

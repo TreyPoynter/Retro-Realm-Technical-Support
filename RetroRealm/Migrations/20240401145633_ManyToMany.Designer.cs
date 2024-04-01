@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RetroRealm.Data;
 
@@ -11,9 +12,11 @@ using RetroRealm.Data;
 namespace RetroRealm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class GameModelContextModelSnapshot : ModelSnapshot
+    [Migration("20240401145633_ManyToMany")]
+    partial class ManyToMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,33 +24,6 @@ namespace RetroRealm.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CustomerGames", b =>
-                {
-                    b.Property<int>("CustomerModelId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GameModelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CustomerModelId", "GameModelId");
-
-                    b.HasIndex("GameModelId");
-
-                    b.ToTable("CustomerGames");
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerModelId = 1,
-                            GameModelId = 1
-                        },
-                        new
-                        {
-                            CustomerModelId = 1,
-                            GameModelId = 3
-                        });
-                });
 
             modelBuilder.Entity("RetroRealm.Models.CountryModel", b =>
                 {
@@ -362,19 +338,31 @@ namespace RetroRealm.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CustomerGames", b =>
+            modelBuilder.Entity("TripActivities", b =>
                 {
-                    b.HasOne("RetroRealm.Models.CustomerModel", null)
-                        .WithMany()
-                        .HasForeignKey("CustomerModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("CustomerModelId")
+                        .HasColumnType("int");
 
-                    b.HasOne("RetroRealm.Models.GameModel", null)
-                        .WithMany()
-                        .HasForeignKey("GameModelId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Property<int>("GameModelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CustomerModelId", "GameModelId");
+
+                    b.HasIndex("GameModelId");
+
+                    b.ToTable("TripActivities");
+
+                    b.HasData(
+                        new
+                        {
+                            CustomerModelId = 1,
+                            GameModelId = 1
+                        },
+                        new
+                        {
+                            CustomerModelId = 1,
+                            GameModelId = 3
+                        });
                 });
 
             modelBuilder.Entity("RetroRealm.Models.CustomerModel", b =>
@@ -413,6 +401,21 @@ namespace RetroRealm.Migrations
                     b.Navigation("Game");
 
                     b.Navigation("Technician");
+                });
+
+            modelBuilder.Entity("TripActivities", b =>
+                {
+                    b.HasOne("RetroRealm.Models.CustomerModel", null)
+                        .WithMany()
+                        .HasForeignKey("CustomerModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RetroRealm.Models.GameModel", null)
+                        .WithMany()
+                        .HasForeignKey("GameModelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

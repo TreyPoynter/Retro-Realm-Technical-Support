@@ -1,0 +1,55 @@
+﻿@model CustomerModel
+@{
+}
+
+<h2 class="fs-1 mb-0">Customer: @Model.Fullname</h2>
+<h2 class="fs-1">Registrations</h2>
+
+@if(Model.GameModels.Count() < 1)
+{
+    <div class="d-flex justify-content-center mt-4">
+        <h4 class="fs-2">No games registered to @Model.Fullname</h4>
+    </div>
+}
+else
+{
+    <table class="table retro-table">
+        <thead>
+            <tr class="">
+                <th scope="col">Game</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (GameModel game in Model.GameModels)
+            {
+                <tr class="">
+                    <td scope="row">@game.Title</td>
+                    <td class="w-25">
+                        <div class="d-flex justify-content-around">
+                            <a asp-controller="TechIncident" asp-action="Edit"
+                               asp-route-id="@game.GameModelId" class="btn-retro text-decoration-none">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h2 class="fs-1">Game</h2>
+<!--
+<form asp-action="SelectCustomer" method="post">
+    <select class="form-select" id="games" name="id"
+            asp-items="@(new SelectList(ViewBag.Games, "GameModelId", "Title"))">
+        <option hidden selected value="">--- Select a Game ---</option>
+    </select>
+    @if (TempData["Error"] != null)
+    {
+        <p class="text-danger">@TempData["Error"]</p>
+    }
+    <button class="btn-retro mt-3 disabled" type="submit">Select</button>
+</form>
+-->
+
+

@@ -38,13 +38,14 @@ namespace RetroRealm.Data.Services
 
         public CustomerModel? GetCustomerByEmail(string email)
         {
-            CustomerModel? customer = _context.Customers.Find(email);
+            CustomerModel? customer = _context.Customers.FirstOrDefault(c => c.Email == email);
             return customer;
         }
 
         public CustomerModel? GetCustomerById(int? id)
         {
-            CustomerModel? customer = _context.Customers.Find(id);
+            CustomerModel? customer = _context.Customers
+                .Include(c => c.GameModels).FirstOrDefault(c => c.CustomerModelId == id);
 
             return customer;
         }

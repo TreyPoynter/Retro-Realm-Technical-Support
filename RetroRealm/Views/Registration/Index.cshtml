@@ -1,0 +1,17 @@
+﻿@model List<CustomerModel>
+@{
+    ViewBag.Title = "Registrations";
+}
+
+<h2 class="fs-1">Get Customer</h2>
+<form asp-action="SelectCustomer" method="post">
+    <select class="form-select" id="customers" name="id" 
+            asp-items="@(new SelectList(Model, "CustomerModelId", "Fullname"))">
+        <option hidden selected value="">--- Select a Customer ---</option>
+    </select>
+    @if (TempData["Error"] != null)
+    {
+        <p class="text-danger">@TempData["Error"]</p>
+    }
+    <button class="btn-retro mt-3" type="submit">Select</button>
+</form>

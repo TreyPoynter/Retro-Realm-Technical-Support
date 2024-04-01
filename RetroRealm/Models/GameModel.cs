@@ -18,5 +18,11 @@ namespace RetroRealm.Models
 
         [Required (ErrorMessage = "A release date is required!")]
         public DateOnly? ReleaseDate { get; set; }
+
+        public IEnumerable<CustomerModel> CustomerModels { get; set; }
+        public GameModel()
+        {
+            CustomerModels = new HashSet<CustomerModel>();
+        }
     }
 }

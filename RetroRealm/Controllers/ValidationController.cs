@@ -20,11 +20,7 @@ namespace RetroRealm.Controllers
 
             if (custWithEmail == null)  // Email is free
                 return Json(true);
-
-            if(custWithEmail.CustomerModelId != CustomerModelId)  // Email is used
-                return Json("Email already exists");
-
-            return Json(true);  // Failsafe
+            return Json("Email already exists");
         }
 
         public IActionResult Index()

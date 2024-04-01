@@ -104,6 +104,22 @@ namespace RetroRealm.Data
                     Phone = "314-890-7889",
                     CountryModelId = 1
                 });
+
+            modelBuilder.Entity<CustomerModel>().HasMany(c => c.GameModels)
+                .WithMany(g => g.CustomerModels)
+                .UsingEntity<Dictionary<string, object>>(
+                    "CustomerGames.",  // what the linking table is called
+                    ta => ta.HasOne<GameModel>()  // set activity foreign key column
+                        .WithMany().OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("GameModelId"),
+                    ta => ta.HasOne<CustomerModel>()  // set trip foreign key column
+                        .WithMany()
+                        .HasForeignKey("CustomerModelId"),
+                    ta => ta.HasData(
+                        new { GameModelId = 1, CustomerModelId = 1 },
+                        new { GameModelId = 3, CustomerModelId = 1 })
+                );
+
             modelBuilder.Entity<IncidentModel>().HasData(
                 new IncidentModel()
                 {
