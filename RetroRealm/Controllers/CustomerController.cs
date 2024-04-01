@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
+using RetroRealm.Data.Repository;
 using RetroRealm.Data.Services;
 using RetroRealm.Models;
 
@@ -8,49 +9,51 @@ namespace RetroRealm.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly ICustomerService _customerService;
-        private readonly ICountriesService _countryService;
-        public CustomerController(ICustomerService customerService, ICountriesService countryService)
+        private readonly Repository<CustomerModel> _customerDB;
+        private readonly Repository<CountryModel> _countryDB;
+        public CustomerController(ApplicationDbContext ctx)
         {
-            _countryService = countryService;
-            _customerService = customerService;
+            _customerDB = new Repository<CustomerModel>(ctx);
+            _countryDB = new Repository<CountryModel>(ctx);
         }
 
         [HttpGet("customers")]
-        public async Task<IActionResult> List()
+        public IActionResult List()
         {
-            List<CustomerModel> customers = await _customerService.GetAll().OrderBy(c => c.Firstname).ToListAsync();
+            List<CustomerModel> customers = _customerDB.List(new QueryOptions<CustomerModel>())
+                .OrderBy(c => c.Firstname).ToList();
             return View(customers);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         {
-            ViewBag.Countries = await _countryService.GetCountries().ToListAsync();
+            ViewBag.Countries = _countryDB.List(new QueryOptions<CountryModel>()).ToList();
             ViewBag.Action = "Add";
             return View("Edit", new CustomerModel());
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
-            ViewBag.Countries = await _countryService.GetCountries().ToListAsync();
-            CustomerModel? customer = _customerService.GetCustomerById(id);
+            ViewBag.Countries = _countryDB.List(new QueryOptions<CountryModel>()).ToList();
+            CustomerModel? customer = _customerDB.GetById(id);
             ViewBag.Action = "Edit";
             return View(customer);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(CustomerModel customer)
+        public IActionResult Edit(CustomerModel customer)
         {
             if (ModelState.IsValid)
             {
                 if (customer.CustomerModelId == 0)
-                    await _customerService.AddCustomer(customer);
+                    _customerDB.Add(customer);
                 else
-                    await _customerService.EditCustomer(customer);
+                    _customerDB.Update(customer);
+                _customerDB.Save();
                 return RedirectToAction("List");
             }
-            ViewBag.Countries = await _countryService.GetCountries().ToListAsync();
+            ViewBag.Countries = _countryDB.List(new QueryOptions<CountryModel>()).ToList();
             ViewBag.Action = (customer.CustomerModelId == 0) ? "Add" : "Edit";
             return View(customer);
         }
@@ -58,13 +61,14 @@ namespace RetroRealm.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            CustomerModel? customer = _customerService.GetCustomerById(id);
+            CustomerModel? customer = _customerDB.GetById(id);
             return View(customer);
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(CustomerModel customer)
+        public IActionResult Delete(CustomerModel customer)
         {
-            await _customerService.DeleteCustomer(customer);
+            _customerDB.Delete(customer);
+            _customerDB.Save();
             return RedirectToAction("List");
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
+using RetroRealm.Data.Repository;
 using RetroRealm.Data.Services;
 using RetroRealm.Migrations;
 using RetroRealm.Models;
@@ -10,23 +11,26 @@ namespace RetroRealm.Controllers
 {
     public class IncidentController : Controller
     {
-        private readonly IIncidentService _incidentService;
-        private readonly ICustomerService _customerService;
-        private readonly IGameService _gameService;
-        private readonly ITechnicianService _technicianService;
-        public IncidentController(IIncidentService incidentService, ICustomerService customerService,
-            IGameService gameService, ITechnicianService technicianService)
+        private readonly Repository<IncidentModel> _incidentDB;
+        private readonly Repository<CustomerModel> _customerDB;
+        private readonly Repository<GameModel> _gameDB;
+        private readonly Repository<TechnicianModel> _technicianDB;
+        public IncidentController(ApplicationDbContext ctx)
         {
-            _incidentService = incidentService;
-            _customerService = customerService;
-            _gameService = gameService;
-            _technicianService = technicianService;
+            _incidentDB = new Repository<IncidentModel>(ctx);
+            _customerDB = new Repository<CustomerModel>(ctx);
+            _gameDB = new Repository<GameModel>(ctx);
+            _technicianDB = new Repository<TechnicianModel>(ctx);
         }
 
         [HttpGet("incidents/{id?}")]
-        public async Task<IActionResult> List(string id)
+        public IActionResult List(string id)
         {
-            List<IncidentModel> incidents = await _incidentService.GetAll().ToListAsync();
+            List<IncidentModel> incidents = _incidentDB.List(new QueryOptions<IncidentModel>()
+            {
+                Includes = "Customer, Technician, Game"
+            }).ToList();
+
             if(id == "open")
                 incidents = incidents.Where(i => i.DateClosed == null).ToList();
             else if(id == "unassigned")
@@ -52,23 +56,23 @@ namespace RetroRealm.Controllers
             IncidentVM? incident = new()
             {
                 Action = "Edit",
-                CurrentIncident = _incidentService.GetById(id)
+                CurrentIncident = _incidentDB.GetById(id)
             };
             return View("Edit", incident);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(IncidentVM incidentVM)
+        public IActionResult Edit(IncidentVM incidentVM)
         {
             IncidentModel? incident = incidentVM.CurrentIncident;
 
             if (ModelState.IsValid)
             {
                 if (incident.IncidentModelId == 0)
-                    await _incidentService.AddIncident(incident);
+                    _incidentDB.Add(incident);
                 else
-                    await _incidentService.UpdateIncident(incident);
-                    
+                    _incidentDB.Update(incident);
+                _incidentDB.Save();
                 return RedirectToAction("List");
             }
 
@@ -84,13 +88,14 @@ namespace RetroRealm.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            IncidentModel? incident = _incidentService.GetById(id);
+            IncidentModel? incident = _incidentDB.GetById(id);
             return View(incident);
         }
         [HttpPost]
         public async Task<IActionResult> Delete(IncidentModel incident)
         {
-            await _incidentService.DeleteIncident(incident);
+            _incidentDB.Delete(incident);
+            _incidentDB.Save();
             return RedirectToAction("List");
         }
 
@@ -104,9 +109,9 @@ namespace RetroRealm.Controllers
 
         void GetViewBagOptions()
         {
-            ViewBag.Customers = _customerService.GetAll().ToList();
-            ViewBag.Games = _gameService.GetAll().ToList();
-            ViewBag.Technicians = _technicianService.GetAll().ToList();
+            ViewBag.Customers = _customerDB.List(new QueryOptions<CustomerModel>()).ToList();
+            ViewBag.Games = _gameDB.List(new QueryOptions<GameModel>()).ToList();
+            ViewBag.Technicians = _technicianDB.List(new QueryOptions<TechnicianModel>()).ToList();
         }
     }
 }

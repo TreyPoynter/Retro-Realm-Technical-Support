@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
+using RetroRealm.Data.Repository;
 using RetroRealm.Data.Services;
 using RetroRealm.Models;
 
@@ -8,16 +9,17 @@ namespace RetroRealm.Controllers
 {
     public class TechnicianController : Controller
     {
-        private readonly ITechnicianService _technicianService;
-        public TechnicianController(ITechnicianService technicianService)
+        private readonly Repository<TechnicianModel> _technicianDb;
+        public TechnicianController(ApplicationDbContext ctx)
         {
-            _technicianService = technicianService;
+            _technicianDb = new Repository<TechnicianModel>(ctx);
         }
 
         [HttpGet("technicians")]
-        public async Task<IActionResult> List()
+        public IActionResult List()
         {
-            List<TechnicianModel> technicians = await _technicianService.GetAll().ToListAsync();
+            List<TechnicianModel> technicians = _technicianDb.List(
+                new QueryOptions<TechnicianModel>()).ToList();
             return View(technicians);
         }
         [HttpGet]
@@ -31,19 +33,20 @@ namespace RetroRealm.Controllers
         public IActionResult Edit(int id)
         {
             ViewBag.Action = "Edit";
-            TechnicianModel? technician = _technicianService.GetById(id);
+            TechnicianModel? technician = _technicianDb.GetById(id);
             return View("Edit", technician);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(TechnicianModel technician)
+        public IActionResult Edit(TechnicianModel technician)
         {
             if (ModelState.IsValid)
             {
                 if (technician.TechnicianModelId == 0)
-                    await _technicianService.Add(technician);
+                    _technicianDb.Add(technician);
                 else
-                    await _technicianService.Update(technician);
+                    _technicianDb.Update(technician);
+                _technicianDb.Save();
                 return RedirectToAction("List");
             }
             ViewBag.Action = (technician.TechnicianModelId == 0) ? "Add" : "Edit";
@@ -53,13 +56,14 @@ namespace RetroRealm.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            TechnicianModel? technician = _technicianService.GetById(id);
+            TechnicianModel? technician = _technicianDb.GetById(id);
             return View(technician);
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(TechnicianModel technician)
+        public IActionResult Delete(TechnicianModel technician)
         {
-            await _technicianService.Remove(technician);
+            _technicianDb.Delete(technician);
+            _technicianDb.Save();
             return RedirectToAction("List");
         }
     }

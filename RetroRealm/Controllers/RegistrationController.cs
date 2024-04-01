@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
+using RetroRealm.Data.Repository;
 using RetroRealm.Data.Services;
 using RetroRealm.Migrations;
 using RetroRealm.Models;
@@ -9,27 +10,27 @@ namespace RetroRealm.Controllers
 {
     public class RegistrationController : Controller
     {
-        private readonly ICustomerService _customerService;
-        private readonly IGameService _gameService;
+        private readonly Repository<CustomerModel> _customerDB;
+        private readonly Repository<GameModel> _gameDB;
 
-        public RegistrationController(ICustomerService customerService, IGameService gameService)
+        public RegistrationController(ApplicationDbContext ctx)
         {
-            _customerService = customerService;
-            _gameService = gameService;
+            _customerDB = new Repository<CustomerModel>(ctx);
+            _gameDB = new Repository<GameModel>(ctx);
 
         }
 
         public IActionResult Index()
         {
-            List<CustomerModel> customers = _customerService.GetAll().ToList();
+            List<CustomerModel> customers = _customerDB.List(new QueryOptions<CustomerModel>()).ToList();
             return View(customers);
         }
 
         public IActionResult List(int id)
         {
-            CustomerModel? customer = _customerService.GetCustomerById(id);
+            CustomerModel? customer = _customerDB.GetById(id);
 
-            ViewBag.Games = _gameService.GetAll().ToList();
+            ViewBag.Games = _gameDB.List(new QueryOptions<GameModel>()).ToList();
 
             return View(customer);
         }
@@ -46,32 +47,34 @@ namespace RetroRealm.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterGame(int id, int customerId)
+        public IActionResult RegisterGame(int id, int customerId)
         {
-            CustomerModel? customer = _customerService.GetCustomerById(customerId);
-            GameModel? game = _gameService.GetGameById(id);
+            CustomerModel? customer = _customerDB.GetById(customerId);
+            GameModel? game = _gameDB.GetById(id);
 
             customer.GameModels.Add(game);
 
-            await _customerService.EditCustomer(customer);
+            _customerDB.Update(customer);
+            _customerDB.Save();
 
             return RedirectToAction("List", new { id = customerId });
         }
 
         public IActionResult Delete(int custId, int id)
         {
-            GameModel? game = _gameService.GetGameById(id);
-            CustomerModel? customer = _customerService.GetCustomerById(custId);
+            GameModel? game = _gameDB.GetById(id);
+            CustomerModel? customer = _customerDB.GetById(custId);
             ViewBag.Game = game;
             return View(customer);
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(int custId, uint gameId)
+        public IActionResult Delete(int custId, uint gameId)
         {
-            CustomerModel? customer = _customerService.GetCustomerById(custId);
-            GameModel game = _gameService.GetGameById((int)gameId);
+            CustomerModel? customer = _customerDB.GetById(custId);
+            GameModel? game = _gameDB.GetById((int)gameId);
             customer.GameModels.Remove(game);
-            await _customerService.EditCustomer(customer);
+            _customerDB.Update(customer);
+            _customerDB.Save();
             return RedirectToAction("List", new { id = custId });
         }
     }
