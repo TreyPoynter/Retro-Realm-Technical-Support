@@ -36,7 +36,7 @@ namespace RetroRealm.Controllers
         [HttpPost]
         public IActionResult SelectCustomer(int id)
         {
-            if (id == 0)  // user didn't select a technician (safe guard)
+            if (id == 0)  // user didn't select a customer (safe guard)
             {
                 TempData["Error"] = "You must select a customer";
                 return RedirectToAction("Index");
@@ -66,12 +66,12 @@ namespace RetroRealm.Controllers
             return View(customer);
         }
         [HttpPost]
-        public IActionResult Delete(int custId, uint gameId)
+        public async Task<IActionResult> Delete(int custId, uint gameId)
         {
             CustomerModel? customer = _customerService.GetCustomerById(custId);
             GameModel game = _gameService.GetGameById((int)gameId);
             customer.GameModels.Remove(game);
-            _customerService.EditCustomer(customer);
+            await _customerService.EditCustomer(customer);
             return RedirectToAction("List", new { id = custId });
         }
     }
