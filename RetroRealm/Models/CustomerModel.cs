@@ -48,7 +48,7 @@ namespace RetroRealm.Models
         [Required(ErrorMessage = "A country is required")]
         public int CountryModelId { get; set; }
 
-        public IEnumerable<GameModel> GameModels { get; set; }
+        public ICollection<GameModel> GameModels { get; set; }
 
         public CustomerModel()
         {

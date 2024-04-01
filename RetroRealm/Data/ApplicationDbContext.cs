@@ -108,7 +108,7 @@ namespace RetroRealm.Data
             modelBuilder.Entity<CustomerModel>().HasMany(c => c.GameModels)
                 .WithMany(g => g.CustomerModels)
                 .UsingEntity<Dictionary<string, object>>(
-                    "CustomerGames.",  // what the linking table is called
+                    "CustomerGames",  // what the linking table is called
                     ta => ta.HasOne<GameModel>()  // set activity foreign key column
                         .WithMany().OnDelete(DeleteBehavior.Restrict)
                         .HasForeignKey("GameModelId"),

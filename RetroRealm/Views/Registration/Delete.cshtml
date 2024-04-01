@@ -1,0 +1,20 @@
+﻿@model CustomerModel
+@{
+}
+
+<div>
+    <h2 class="fs-1">Confirm Deletion</h2>
+    <p class="fs-5">
+        Are you sure you want to delete <span class="fw-bold">@Model.Fullname</span>
+        registration for <span class="fw-bold">@ViewBag.Game.Title</span>
+    </p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="CustomerModelId" name="custId" value="@Model.CustomerModelId"/>
+    <input type="hidden" name="gameId" value="@ViewBag.Game.GameModelId"/>
+    <button type="submit" class="btn-retro text-decoration-none">Yes</button>
+    <a asp-controller="Registration" asp-action="List" asp-route-id="@Model.CustomerModelId" 
+        class="btn-retro text-decoration-none ms-3">No
+    </a>
+</form>
