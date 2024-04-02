@@ -10,7 +10,7 @@
     </p>
 </div>
 
-<form asp-action="Delete" method="post">
+<form asp-action="DeleteFromCustomer" method="post">
     <input type="hidden" asp-for="CustomerModelId" name="custId" value="@Model.CustomerModelId"/>
     <input type="hidden" name="gameId" value="@ViewBag.Game.GameModelId"/>
     <button type="submit" class="btn-retro text-decoration-none">Yes</button>

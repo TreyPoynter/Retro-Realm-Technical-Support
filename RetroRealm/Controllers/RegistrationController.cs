@@ -64,7 +64,7 @@ namespace RetroRealm.Controllers
             return View(customer);
         }
         [HttpPost]
-        public IActionResult Delete(int custId, uint gameId)
+        public IActionResult DeleteFromCustomer(int custId, int gameId)
         {
             CustomerModel? customer = _customerDB.GetById(custId);
             GameModel? game = _gameDB.GetById((int)gameId);
