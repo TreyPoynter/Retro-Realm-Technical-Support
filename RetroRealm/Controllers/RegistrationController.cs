@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
 using RetroRealm.Data.Repository;
-using RetroRealm.Data.Services;
-using RetroRealm.Migrations;
 using RetroRealm.Models;
 
 namespace RetroRealm.Controllers
@@ -17,7 +14,6 @@ namespace RetroRealm.Controllers
         {
             _customerDB = new Repository<CustomerModel>(ctx);
             _gameDB = new Repository<GameModel>(ctx);
-
         }
 
         public IActionResult Index()
@@ -30,7 +26,6 @@ namespace RetroRealm.Controllers
         {
             CustomerModel? customer = _customerDB.GetById(id);
 
-            ViewBag.Games = _gameDB.List(new QueryOptions<GameModel>()).ToList();
 
             return View(customer);
         }

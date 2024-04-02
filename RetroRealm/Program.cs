@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
-using RetroRealm.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

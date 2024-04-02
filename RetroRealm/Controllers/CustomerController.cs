@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
 using RetroRealm.Data.Repository;
-using RetroRealm.Data.Services;
 using RetroRealm.Models;
 
 namespace RetroRealm.Controllers

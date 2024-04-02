@@ -1,22 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RetroRealm.Data;
-using RetroRealm.Data.Services;
 using RetroRealm.Models;
 
 namespace RetroRealm.Controllers
 {
     public class ValidationController : Controller
     {
-        private readonly ICustomerService _customerService;
+        private readonly ApplicationDbContext _context;
 
-        public ValidationController(ICustomerService customerService)
+        public ValidationController(ApplicationDbContext ctx)
         {
-            _customerService = customerService;
+            _context = ctx;
         }
 
         public JsonResult CustomerEmailExists(string Email, int CustomerModelId)
         {
-            CustomerModel? custWithEmail = _customerService.GetCustomerByEmail(Email);
+            CustomerModel? custWithEmail = _context.Customers.FirstOrDefault(c => c.Email == Email);
 
             if (custWithEmail == null)  // Email is free
                 return Json(true);
