@@ -28,6 +28,7 @@ else
                     <td class="w-25">
                         <div class="d-flex justify-content-around">
                             <a asp-controller="Registration" asp-action="Delete" asp-route-custId="@Model.CustomerModelId"
+                               asp-route-slug="@Model.Slug"
                                asp-route-id="@game.GameModelId" class="btn-retro text-decoration-none">Delete</a>
                         </div>
                     </td>

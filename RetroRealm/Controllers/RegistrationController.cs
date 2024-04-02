@@ -7,12 +7,12 @@ namespace RetroRealm.Controllers
 {
     public class RegistrationController : Controller
     {
-        private readonly Repository<CustomerModel> _customerDB;
+        private readonly CustomerRepository _customerDB;
         private readonly Repository<GameModel> _gameDB;
 
         public RegistrationController(ApplicationDbContext ctx)
         {
-            _customerDB = new Repository<CustomerModel>(ctx);
+            _customerDB = new CustomerRepository(ctx);
             _gameDB = new Repository<GameModel>(ctx);
         }
 
@@ -26,6 +26,7 @@ namespace RetroRealm.Controllers
         {
             CustomerModel? customer = _customerDB.GetById(id);
 
+            ViewBag.Games = _gameDB.List(new QueryOptions<GameModel>()).ToList();
 
             return View(customer);
         }

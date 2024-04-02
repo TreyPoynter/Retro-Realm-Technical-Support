@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RetroRealm.Models
 {
@@ -44,6 +45,9 @@ namespace RetroRealm.Models
 
         [ValidateNever]
         public CountryModel CountryModel { get; set; } = null!;
+        [ValidateNever]
+        [NotMapped]
+        public string Slug => Fullname.Replace(' ', '-').ToLower();
 
         [Required(ErrorMessage = "A country is required")]
         public int CountryModelId { get; set; }

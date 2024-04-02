@@ -39,7 +39,6 @@
         <div class="form-floating retro-form">
             <select asp-for="CurrentIncident.TechnicianModelId" class="form-select" asp-items="@(new SelectList(ViewBag.Technicians, "TechnicianModelId", "Name"))">
                 <option hidden selected value="">--- Select a Technician ---</option>
-                <option selected value="-1">Not Assigned</option>
             </select>
             <label asp-for="CurrentIncident.Description" for="floatingInput">Assigned To</label>
         </div>
