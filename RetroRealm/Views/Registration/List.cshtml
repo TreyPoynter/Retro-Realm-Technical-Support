@@ -6,6 +6,10 @@
 <h2 class="fs-1 mb-0">Customer: @Model.Fullname</h2>
 <h2 class="fs-1">Registrations</h2>
 
+<form asp-action="SwitchCustomer" asp-controller="Registration">
+    <button class="btn-retro mb-3" type="submit">Switch Customer</button>
+</form>
+
 @if(Model.GameModels.Count() < 1)
 {
     <div class="d-flex justify-content-center">
