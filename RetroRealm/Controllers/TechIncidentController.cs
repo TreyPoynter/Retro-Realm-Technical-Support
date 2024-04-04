@@ -24,7 +24,10 @@ namespace RetroRealm.Controllers
             if(GetSessionTechnicianId() != null)  // If the user already selected a technician
                 return RedirectToAction("List", new { id = GetSessionTechnicianId() });
 
-            List<TechnicianModel> technicians = _technicianDB.List(new QueryOptions<TechnicianModel>()).ToList();
+            List<TechnicianModel> technicians = _technicianDB.List(new QueryOptions<TechnicianModel>()
+            {
+                Where = t => t.TechnicianModelId != -1
+            }).ToList();
             return View(technicians);
         }
 
@@ -54,7 +57,10 @@ namespace RetroRealm.Controllers
             if (id != GetSessionTechnicianId())
                 SaveToSession(id);
             TechnicianModel? technician = _technicianDB.GetById(id);
-            List<IncidentModel> incidents = _incidentDB.List(new QueryOptions<IncidentModel>()).ToList();
+            List<IncidentModel> incidents = _incidentDB.List(new QueryOptions<IncidentModel>()
+            {
+                Includes = "Customer, Technician, Game"
+            }).ToList();
 
             ViewBag.TechnicianName = technician.Name;
 
@@ -69,7 +75,7 @@ namespace RetroRealm.Controllers
             return View("Edit", incident);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(IncidentModel updatedIncident)
+        public IActionResult Edit(IncidentModel updatedIncident)
         {
             if (ModelState.IsValid)
             {
