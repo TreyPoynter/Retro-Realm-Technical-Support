@@ -17,7 +17,10 @@ namespace RetroRealm.Controllers
         public IActionResult List()
         {
             List<TechnicianModel> technicians = _technicianDb.List(
-                new QueryOptions<TechnicianModel>()).ToList();
+                new QueryOptions<TechnicianModel>()
+                {
+                    Where = t => t.TechnicianModelId != -1
+                }).ToList();
             return View(technicians);
         }
         [HttpGet]
