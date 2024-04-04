@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using RetroRealm.Utilities;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace RetroRealm.Models
 {
     public class IncidentModel
     {
-        [ValidateNever]
-        public int IncidentModelId { get; set; }
+        public int? IncidentModelId { get; set; } = 0;
         [Required (ErrorMessage = "A title is required!")]
         public string? Title { get; set; }
         [Required(ErrorMessage = "A description is required!")]
