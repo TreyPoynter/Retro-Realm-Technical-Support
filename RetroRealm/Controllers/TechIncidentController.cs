@@ -19,7 +19,7 @@ namespace RetroRealm.Controllers
             _incidentDB = new Repository<IncidentModel>(ctx);
             _gameDB = new Repository<GameModel>(ctx);
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             if(GetSessionTechnicianId() != null)  // If the user already selected a technician
                 return RedirectToAction("List", new { id = GetSessionTechnicianId() });
