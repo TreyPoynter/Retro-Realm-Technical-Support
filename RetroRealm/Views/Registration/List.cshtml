@@ -1,5 +1,6 @@
 ﻿@model CustomerModel
 @{
+    ViewBag.Title = $"{Model.Fullname} Registrations";
 }
 
 <h2 class="fs-1 mb-0">Customer: @Model.Fullname</h2>
@@ -7,8 +8,15 @@
 
 @if(Model.GameModels.Count() < 1)
 {
-    <div class="d-flex justify-content-center mt-4">
-        <h4 class="fs-2">No games registered to @Model.Fullname</h4>
+    <div class="d-flex justify-content-center">
+        <div class="window" style="width: 50%">
+            <div class="title-bar">
+                <div class="title-bar-text">No Games Registered</div>
+            </div>
+            <div class="window-body">
+                <p>There seems to be no games registered to @Model.Fullname, how about registering some?</p>
+            </div>
+        </div>
     </div>
 }
 else
