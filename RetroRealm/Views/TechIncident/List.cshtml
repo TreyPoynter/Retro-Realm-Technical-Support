@@ -7,34 +7,52 @@
 <h2 class="fs-1">Technician: @ViewBag.TechnicianName</h2>
 <h2 class="fs-1">Assigned/Open Incidents</h2>
 
-<table class="table retro-table">
-    <thead>
-        <tr class="">
-            <th scope="col">Title</th>
-            <th scope="col">Customer</th>
-            <th scope="col">Game</th>
-            <th scope="col">Date Opened</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (IncidentModel incident in Model)
-        {
+@if(Model.Count < 1)
+{
+    <div class="d-flex justify-content-center">
+        <div class="window" style="width: 50%">
+            <div class="title-bar">
+                <div class="title-bar-text">No Assigned Incidents</div>
+            </div>
+            <div class="window-body">
+                <p>There seems to be no assigned or open incidents to @ViewBag.TechnicianName</p>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <table class="table retro-table">
+        <thead>
             <tr class="">
-                <td scope="row">@incident.Title</td>
-                <td>@incident.Customer.Firstname @incident.Customer.Lastname</td>
-                <td>@incident.Game.Title</td>
-                <td>@incident.DateOpened.Value.ToString(dateFormat)</td>
-                <td class="w-25">
-                    <div class="d-flex justify-content-around">
-                        <a asp-controller="TechIncident" asp-action="Edit"
-                           asp-route-id="@incident.IncidentModelId" class="btn-retro text-decoration-none">Edit</a>
-                    </div>
-                </td>
+                <th scope="col">Title</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Game</th>
+                <th scope="col">Date Opened</th>
+                <th scope="col"></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (IncidentModel incident in Model)
+            {
+                <tr class="">
+                    <td scope="row">@incident.Title</td>
+                    <td>@incident.Customer.Firstname @incident.Customer.Lastname</td>
+                    <td>@incident.Game.Title</td>
+                    <td>@incident.DateOpened.Value.ToString(dateFormat)</td>
+                    <td class="w-25">
+                        <div class="d-flex justify-content-around">
+                            <a asp-controller="TechIncident" asp-action="Edit"
+                               asp-route-id="@incident.IncidentModelId" class="btn-retro text-decoration-none">Edit</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
 
 <form asp-action="SwitchTechnician" asp-controller="TechIncident">
     <button class="btn-retro mt-3" type="submit">Switch Technician</button>
