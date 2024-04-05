@@ -54,7 +54,7 @@
     <div class="mb-3">
         <div class="form-floating">
             <label asp-for="CurrentIncident.DateClosed">Select a Closed Date (optional):</label>
-            <input asp-for="CurrentIncident.DateClosed"  id="datepicker" class="form-control"
+            <input asp-for="CurrentIncident.DateClosed" type="date" id="datepicker" class="form-control"
                    max="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")" min="@DateTime.Now.AddYears(-1).ToString("yyyy-MM-ddThh:mm")" />
         </div>
     </div>
