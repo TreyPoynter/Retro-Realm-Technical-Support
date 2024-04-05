@@ -59,6 +59,7 @@ namespace RetroRealm.Controllers
             TechnicianModel? technician = _technicianDB.GetById(id);
             List<IncidentModel> incidents = _incidentDB.List(new QueryOptions<IncidentModel>()
             {
+                Where = i => i.TechnicianModelId == id && i.DateClosed == null,
                 Includes = "Customer, Technician, Game"
             }).ToList();
 
@@ -71,7 +72,11 @@ namespace RetroRealm.Controllers
         [Route("techincident/edit/{id}")]
         public IActionResult Edit(int id)
         {
-            IncidentModel? incident = _incidentDB.GetById(id);
+            IEnumerable<IncidentModel> incidents = _incidentDB.List(new QueryOptions<IncidentModel>()
+            {
+                Includes = "Game, Customer, Technician"
+            });
+            IncidentModel? incident = incidents.FirstOrDefault(i => i.IncidentModelId == id);
             return View("Edit", incident);
         }
         [HttpPost]

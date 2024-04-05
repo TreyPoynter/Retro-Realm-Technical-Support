@@ -34,9 +34,9 @@ namespace RetroRealm.Data.Repository
         {
             IQueryable<T> query = _dbSet;
 
-            foreach (string incldue in queryOptions.GetIncludes())
+            foreach (string include in queryOptions.GetIncludes())
             {
-                query = query.Include(incldue);
+                query = query.Include(include);
             }
             if (queryOptions.HasWhere)
                 query = query.Where(queryOptions.Where);
