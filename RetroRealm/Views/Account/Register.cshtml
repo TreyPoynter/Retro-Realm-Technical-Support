@@ -1,5 +1,26 @@
-﻿@{
+﻿@model RegisterVM
+@{
     ViewBag.Title = "Register";
 }
 
-<h2 class="fs-1">Register</h2>
+<h2 class="fs-1 mb-3">Register</h2>
+
+<form asp-action="Register" method="post">
+    <div class="form-floating mb-3 col-md-6">
+        <input asp-for="UserName" class="form-control" placeholder=""/>
+        <label class="form-label">Username</label>
+    </div>
+    <div class="form-floating mb-3 col-md-6">
+        <input asp-for="Password" class="form-control" placeholder=""/>
+        <label class="form-label">Password</label>
+    </div>
+    <div class="form-floating mb-3 col-md-6">
+        <input asp-for="ConfirmPassword" class="form-control" placeholder="" />
+        <label class="form-label">Confirm Password</label>
+    </div>
+    <div class="mb-3">
+        <button class="btn-retro">Register</button>
+    </div>
+    
+    <a asp-action="Login">Already have an account?</a>
+</form>
