@@ -1,4 +1,5 @@
-﻿@{
+﻿@inject SignInManager<User> SignInManager
+@{
     Layout = "_Layout";
 
     string AddActiveClass(string[] paths)
@@ -8,6 +9,7 @@
         return paths.Contains(strippedPath) ? "active" : "";
     }
 }
+
 
 <header id="header-nav">
     <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-dark box-shadow mb-3">
@@ -44,7 +46,25 @@
                         asp-area="" asp-controller="Registration" asp-action="Index">Registrations</a>
                     </li>
                 </ul>
+                
                 <ul class="navbar-nav">
+                    @if (!SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @AddActiveClass(["login"])"
+                               asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @AddActiveClass(["register"])"
+                               asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link">Hello, @User.Identity?.Name!</a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link @AddActiveClass(["about"])"
                         asp-area="" asp-controller="Home" asp-action="About">About</a>
