@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RetroRealm.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace RetroRealm.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<GameModel> Games { get; set; }
         public DbSet<TechnicianModel> Technicians { get; set; }
@@ -15,6 +17,7 @@ namespace RetroRealm.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<CountryModel>().HasData(
                 new CountryModel() { CountryModelId = 1, Country = "United States" },
                 new CountryModel() { CountryModelId = 2, Country = "Canada" },

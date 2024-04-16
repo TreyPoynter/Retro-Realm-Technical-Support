@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
+using RetroRealm.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,10 @@ builder.Services.AddRouting(options =>
 });
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+}).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+builder.Services.AddAuthentication();
 builder.Services.AddMemoryCache();
 builder.Services.AddSession(opts =>
 {
@@ -37,6 +43,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.UseSession();
 
