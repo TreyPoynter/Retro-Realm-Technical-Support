@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RetroRealm.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace RetroRealm.Controllers
 {
@@ -15,9 +16,9 @@ namespace RetroRealm.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = "")
         {
-            return View();
+            return View(new LoginVM() { ReturnURL = returnUrl });
         }
 
         [HttpPost]
@@ -25,18 +26,17 @@ namespace RetroRealm.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
-
             User user = new()
             {
                 UserName = model.Username
             };
 
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password,
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password,
                 isPersistent: model.RememberMe, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
-                if(!string.IsNullOrEmpty(model.ReturnURL) &&
+                if (!string.IsNullOrEmpty(model.ReturnURL) &&
                     Url.IsLocalUrl(model.ReturnURL))
                 {
                     return Redirect(model.ReturnURL);
@@ -55,7 +55,34 @@ namespace RetroRealm.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM model)
         {
+            User user = new User() { UserName = model.UserName };
+
+            if (ModelState.IsValid)
+            {
+                var result = await _userManager.CreateAsync(user, model.Password.ToString());
+                if (result.Succeeded)
+                {
+                    await _signInManager.PasswordSignInAsync(user, model.Password,
+                    isPersistent: false, lockoutOnFailure: false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach(var error in result.Errors)
+                {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
