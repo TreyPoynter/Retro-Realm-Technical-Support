@@ -11,7 +11,7 @@ namespace RetroRealm.Utilities
             var userManager = provider.GetRequiredService<UserManager<User>>();
 
             string userName = "admin";
-            string password = "PassW0rd#1";
+            string password = "P@ssW0rd";
             string roleName = "Admin";
 
             if(await roleManager.FindByNameAsync(roleName) == null)
