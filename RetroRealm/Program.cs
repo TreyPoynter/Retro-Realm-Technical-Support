@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RetroRealm.Data;
 using RetroRealm.Models;
+using RetroRealm.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.UseAuthentication();
+
+IServiceScopeFactory? scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using (var scope = scopeFactory.CreateScope())
+{
+    await ConfigureIdentity.CreateAdminUserASync(scope.ServiceProvider);
+}
 
 app.UseSession();
 
