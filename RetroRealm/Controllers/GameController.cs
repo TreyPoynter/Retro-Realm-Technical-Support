@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RetroRealm.Data;
 using RetroRealm.Data.Repository;
 using RetroRealm.Models;
 
 namespace RetroRealm.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class GameController : Controller
     {
         private readonly Repository<GameModel> _gameDB;
