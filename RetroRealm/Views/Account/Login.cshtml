@@ -5,13 +5,13 @@
 
 <h2 class="fs-1">Login</h2>
 
-<form asp-action="Register" method="post">
+<form asp-action="Login" method="post" asp-route-returnUrl="@Model.ReturnURL">
     <div class="form-floating mb-3 col-md-6">
         <input asp-for="Username" class="form-control" placeholder="" />
         <label class="form-label">Username</label>
     </div>
     <div class="form-floating mb-3 col-md-6">
-        <input asp-for="Password" class="form-control" placeholder="" />
+        <input type="password" asp-for="Password" class="form-control" placeholder="" />
         <label class="form-label">Password</label>
     </div>
     <div class="form-check col-md-6 mb-3">
