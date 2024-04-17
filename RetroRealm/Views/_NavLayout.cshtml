@@ -1,7 +1,7 @@
 ﻿@inject SignInManager<User> SignInManager
 @{
     Layout = "_Layout";
-
+    bool isAdmin = User.IsInRole("Admin");
     string AddActiveClass(string[] paths)
     {
         // strip the path to only the first segment and remove all white space
@@ -25,10 +25,13 @@
                         <a class="nav-link @AddActiveClass([""])" 
                         asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link @AddActiveClass(["games", "game"])" 
-                        asp-area="" asp-controller="Game" asp-action="ManageGames">Manage Products</a>
-                    </li>
+                    @if (isAdmin)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @AddActiveClass(["games", "game"])"
+                               asp-area="" asp-controller="Game" asp-action="ManageGames">Manage Products</a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link @AddActiveClass(["technicians", "technician"])" 
                         asp-area="" asp-controller="Technician" asp-action="List">Technicians</a>
@@ -52,7 +55,7 @@
                     {
                         <li class="nav-item">
                             <a class="nav-link @AddActiveClass(["login"])"
-                               asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                               href="/account/login?returnUrl=@Context.Request.Path">Login</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @AddActiveClass(["register"])"
