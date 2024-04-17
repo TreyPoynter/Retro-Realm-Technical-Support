@@ -18,7 +18,8 @@ namespace RetroRealm.Controllers
 
         public IActionResult Login(string returnUrl = "")
         {
-            return View(new LoginVM() { ReturnURL = returnUrl });
+            LoginVM model = new() { ReturnURL =  returnUrl };
+            return View(model);
         }
 
         [HttpPost]
@@ -83,6 +84,11 @@ namespace RetroRealm.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

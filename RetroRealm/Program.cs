@@ -43,8 +43,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+// Order of this matters
 app.UseAuthentication();
+app.UseAuthorization();
 
 IServiceScopeFactory? scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
